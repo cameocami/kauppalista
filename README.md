@@ -3,10 +3,10 @@
 ## Sovelluksen toiminnot
 
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
-* Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan kauppalistoja.
-* Käyttäjä pystyy lisäämään tuotteita kauppalistaan.
-* Käyttäjä näkee sovellukseen lisätyt kauppalistat.
 * Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tuotteita.
+* Käyttäjä näkee sovellukseen lisätyt tuotteet.
 * Käyttäjä pystyy etsimään tuotteita hakusanalla.
+* Käyttäjä pystyy valitsemaan tuotteelle yhden tai useamman luokittelun (tuotteen osasto, esim. hevi, maitotuotteet, tuotteen yksikön esim. kg, litra, tölkki ja tuotteen hinnan).
+* Käyttäjä pystyy luomaan kauppalista tuotteista.
+* Käyttäjä näkee sovellukseen lisätyt kauppalistat.
 * Sovelluksessa on käyttäjäsivut, jotka näyttävät tilastoja ja käyttäjän lisäämät kauppalistat.
-* Käyttäjä pystyy valitsemaan tuotteille osaston (esim. hevi, maitotuotteet, pakaste).

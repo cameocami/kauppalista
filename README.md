@@ -1,8 +1,11 @@
 # Kauppalista
 
-## Sovelluksen toiminnot
+## Sovelluksen tämänhetkiset toiminnot
 
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
+
+## Sovellukseen tulevat toiminnot
+
 * Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tuotteita.
 * Käyttäjä näkee sovellukseen lisätyt tuotteet.
 * Käyttäjä pystyy etsimään tuotteita hakusanalla.

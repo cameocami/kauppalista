@@ -3,6 +3,7 @@ from flask import Flask
 from flask import redirect, render_template, request
 from werkzeug.security import generate_password_hash
 import db
+import config
 
 app = Flask(__name__)
 

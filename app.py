@@ -4,12 +4,14 @@ from flask import redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
+import products
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
+
     return render_template("index.html")
 
 @app.route("/new_product")
@@ -22,8 +24,8 @@ def create_product():
     price = request.form["price"]
     user_id = session["user_id"]
 
-    sql = "INSERT INTO products (name, price, user_id) VALUES (?, ?, ?)"
-    db.execute(sql, [name, price, user_id])
+    products.add_item(name, price, user_id)
+
     return redirect("/")
 
 @app.route("/register")
@@ -59,9 +61,8 @@ def login():
         sql = "SELECT id, password_hash FROM users WHERE username = ?"
         result = db.query(sql,[username])[0]
         user_id = result["id"]
-        password_hash = result["password_hash"]  
-
-
+        password_hash = result["password_hash"]
+        
         if check_password_hash(password_hash, password):
             session["user_id"] = user_id
             session["username"] = username

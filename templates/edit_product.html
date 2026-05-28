@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tuotteen muokkaus</title>
+</head>
+
+<body>
+  <h1>Tuotteen muokkaus</h1>
+  <form action="/update_product" method="post">
+    <p>
+      Tuotteen nimi: <br />
+      <input type="text" name="name" value="{{product.name}}"/>
+    </p>
+    <p>
+      Hinta: <br />
+      <input type="text" name="price" size="5" value="{{product.price}}"/> €
+    </p>
+    <input type="hidden" name="product_id" value="{{ product.id }}" />
+    <input type="submit" value="Päivitä" />
+  </form>
+
+ 
+</body>
+
+</html>

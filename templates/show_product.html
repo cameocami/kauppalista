@@ -6,6 +6,14 @@
 </head>
 
 <body>
+
+    {% if session.user_id == product.user_id%}
+  <p>
+    <a href="/edit_product/{{ product.id }}">Muokkaa</a>
+  </p>
+  {% endif %}
+  <p>
+
   <h1>{{product.name}}</h1>
   <p>
     Hinta: {{product.price}} €

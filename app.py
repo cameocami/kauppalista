@@ -33,6 +33,21 @@ def create_product():
 
     return redirect("/")
 
+@app.route("/edit_product/<int:product_id>")
+def edit_product(product_id):
+    product = products.get_product(product_id)
+    return render_template("edit_product.html", product=product)
+
+@app.route("/update_product", methods=["POST"])
+def update_product():
+    product_id = request.form["product_id"]
+    name = request.form["name"]
+    price = request.form["price"]
+
+    products.update_product(product_id, name, price)
+
+    return redirect("/product/" +str(product_id))
+
 @app.route("/register")
 def register():
     return render_template("register.html")

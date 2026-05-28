@@ -4,11 +4,12 @@
 
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
 * Käyttäjä pystyy lisäämään tuotteita tietokantaan. 
+* Käyttäjä pystyy muokkaamaan tuotteita.
+* Käyttäjä näkee sovellukseen lisätyt tuotteet.
 
 ## Sovellukseen tulevat toiminnot
 
-* Käyttäjä pystyy muokkaamaan ja poistamaan tuotteita.
-* Käyttäjä näkee sovellukseen lisätyt tuotteet.
+* Käyttäjä pystyy poistamaan tuotteita.
 * Käyttäjä pystyy etsimään tuotteita hakusanalla.
 * Käyttäjä pystyy valitsemaan tuotteelle yhden tai useamman luokittelun (tuotteen osasto, esim. hevi, maitotuotteet, tuotteen yksikön esim. kg, litra, tölkki ja tuotteen hinnan).
 * Käyttäjä pystyy luomaan kauppalistan tuotteista.

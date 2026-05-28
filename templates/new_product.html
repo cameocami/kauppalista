@@ -6,6 +6,14 @@
 </head>
 
 <body>
+  
+  {% if session.username %}
+  <p>
+    Olet kirjautunut nimellä {{ session.username }}, id-numerosi {{ session.user_id}}
+  </p>
+  {% endif %}
+  <p>
+
   <h1>Uusi tuote</h1>
   <form action="/create_product" method="post">
     <p>

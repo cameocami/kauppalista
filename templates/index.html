@@ -20,6 +20,13 @@
   <p>
     <a href="/new_product">Uusi tuote</a>
   </p>
+  <h2>Tuotteet</h2>
+  <ul>
+  {% for product in products %}
+  <li><a href="/product/{{product.id}}">{{product.name}}</a></li>
+  {%endfor%}
+  </ul>
+
 </body>
 
 </html>

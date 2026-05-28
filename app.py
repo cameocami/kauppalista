@@ -11,8 +11,13 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
+    all_products = products.get_products()
+    return render_template("index.html", products=all_products)
 
-    return render_template("index.html")
+@app.route("/product/<int:product_id>")
+def show_product(product_id):
+    product = products.get_product(product_id)
+    return render_template("show_product.html", product=product)
 
 @app.route("/new_product")
 def new_product():
@@ -24,7 +29,7 @@ def create_product():
     price = request.form["price"]
     user_id = session["user_id"]
 
-    products.add_item(name, price, user_id)
+    products.add_product(name, price, user_id)
 
     return redirect("/")
 

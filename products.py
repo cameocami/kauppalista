@@ -29,3 +29,10 @@ def update_product(product_id, name, price):
 def remove_product(product_id):
     sql = "DELETE FROM products WHERE id = ?"
     db.execute(sql, [product_id])
+
+def find_products(query):
+    sql = """SELECT id, name
+            FROM products
+            WHERE name LIKE ?
+            ORDER BY id DESC"""
+    return db.query(sql, ["%" + query + "%"])

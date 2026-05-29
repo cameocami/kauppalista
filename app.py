@@ -14,6 +14,16 @@ def index():
     all_products = products.get_products()
     return render_template("index.html", products=all_products)
 
+@app.route("/find_product")
+def find_product():
+    query = request.args.get("query")
+    if query:
+        results = products.find_products(query)
+    else:
+        query = ""
+        results = []
+    return render_template("find_product.html", query=query, results=results)
+
 @app.route("/product/<int:product_id>")
 def show_product(product_id):
     product = products.get_product(product_id)

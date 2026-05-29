@@ -18,14 +18,15 @@ def get_product(product_id):
                             users
                 WHERE   products.user_id = users.id AND
                         products.id = ? """
-    return db.query(sql, [product_id])[0]
+    result = db.query(sql, [product_id])
+    return result[0] if result else None
 
 def update_product(product_id, name, price):
     sql = """UPDATE products    SET name = ?,
                                     price = ?
                             WHERE id = ? """
     db.execute(sql, [name, price, product_id])
-
+ 
 def remove_product(product_id):
     sql = "DELETE FROM products WHERE id = ?"
     db.execute(sql, [product_id])

@@ -27,6 +27,8 @@ def find_product():
 @app.route("/product/<int:product_id>")
 def show_product(product_id):
     product = products.get_product(product_id)
+    if not product:
+        abort(404)
     return render_template("show_product.html", product=product)
 
 @app.route("/new_product")
@@ -46,6 +48,8 @@ def create_product():
 @app.route("/edit_product/<int:product_id>")
 def edit_product(product_id):
     product = products.get_product(product_id)
+    if not product:
+        abort(404)
     if product["user_id"] != session["user_id"]:
         abort(403)
     return render_template("edit_product.html", product=product)
@@ -54,6 +58,8 @@ def edit_product(product_id):
 def update_product():
     product_id = request.form["product_id"]
     product = products.get_product(product_id)
+    if not product:
+        abort(404)
     if product["user_id"] != session["user_id"]:
         abort(403)
     name = request.form["name"]
@@ -66,6 +72,8 @@ def update_product():
 @app.route("/remove_product/<int:product_id>", methods=["GET", "POST"])
 def remove_product(product_id):
     product = products.get_product(product_id)
+    if not product:
+        abort(404)
     if product["user_id"] != session["user_id"]:
         abort(403)
     if request.method == "GET":

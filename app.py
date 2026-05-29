@@ -9,6 +9,10 @@ import products
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def require_login():
+    if "user_id" not in session:
+        abort(403)
+
 @app.route("/")
 def index():
     all_products = products.get_products()
@@ -33,10 +37,12 @@ def show_product(product_id):
 
 @app.route("/new_product")
 def new_product():
+    require_login()
     return render_template("new_product.html")
 
 @app.route("/create_product", methods=["POST"])
 def create_product():
+    require_login()
     name = request.form["name"]
     price = request.form["price"]
     user_id = session["user_id"]
@@ -47,6 +53,7 @@ def create_product():
 
 @app.route("/edit_product/<int:product_id>")
 def edit_product(product_id):
+    require_login()
     product = products.get_product(product_id)
     if not product:
         abort(404)
@@ -56,6 +63,7 @@ def edit_product(product_id):
 
 @app.route("/update_product", methods=["POST"])
 def update_product():
+    require_login()
     product_id = request.form["product_id"]
     product = products.get_product(product_id)
     if not product:
@@ -71,6 +79,7 @@ def update_product():
 
 @app.route("/remove_product/<int:product_id>", methods=["GET", "POST"])
 def remove_product(product_id):
+    require_login()
     product = products.get_product(product_id)
     if not product:
         abort(404)
@@ -129,6 +138,7 @@ def login():
 
 @app.route("/logout")
 def logout():
+    require_login()
     del session["username"]
     del session["user_id"]
     return redirect("/")

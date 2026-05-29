@@ -18,11 +18,11 @@
   <form action="/create_product" method="post">
     <p>
       Tuotteen nimi: <br />
-      <input type="text" name="name" />
+      <input type="text" name="name" maxlength="50"/>
     </p>
     <p>
       Hinta: <br />
-      <input type="text" name="price" size="5"/> €
+      <input type="text" name="price" size="5" pattern="^\d+(,\d{0,2})?$"/> €
     </p>
     <input type="submit" value="Luo tuote" />
   </form>

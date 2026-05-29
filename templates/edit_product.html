@@ -10,11 +10,11 @@
   <form action="/update_product" method="post">
     <p>
       Tuotteen nimi: <br />
-      <input type="text" name="name" value="{{product.name}}"/>
+      <input type="text" name="name" value="{{product.name}}" maxlength="50" required/>
     </p>
     <p>
       Hinta: <br />
-      <input type="text" name="price" size="5" value="{{product.price}}"/> €
+      <input type="text" name="price" size="5" value="{{product.price}}" pattern="^\d+(,\d{0,2})?$" required/> €
     </p>
     <input type="hidden" name="product_id" value="{{ product.id }}" />
     <input type="submit" value="Päivitä" />

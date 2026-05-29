@@ -5,12 +5,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
 import products
+import re
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
 def require_login():
     if "user_id" not in session:
+        abort(403)
+
+def validate_price(price):
+    price_regex = r'(^\d+(\,\d{1,2})?$)'
+    if not re.match(price_regex, price):
+        abort(403)
+    if len(price) > 8:
+        abort(403)
+
+def validate_name(name):
+    if len(name) > 50 or not name:
         abort(403)
 
 @app.route("/")
@@ -44,7 +56,9 @@ def new_product():
 def create_product():
     require_login()
     name = request.form["name"]
+    validate_name(name)
     price = request.form["price"]
+    validate_price(price)
     user_id = session["user_id"]
 
     products.add_product(name, price, user_id)
@@ -71,8 +85,9 @@ def update_product():
     if product["user_id"] != session["user_id"]:
         abort(403)
     name = request.form["name"]
+    validate_name(name)
     price = request.form["price"]
-
+    validate_price(price)
     products.update_product(product_id, name, price)
 
     return redirect("/product/" +str(product_id))

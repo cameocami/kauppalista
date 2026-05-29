@@ -6,10 +6,10 @@
 * Käyttäjä pystyy lisäämään tuotteita tietokantaan. 
 * Käyttäjä pystyy muokkaamaan ja poistamaan tuotteita.
 * Käyttäjä näkee sovellukseen lisätyt tuotteet.
+* Käyttäjä pystyy etsimään tuotteita hakusanalla.
 
 ## Sovellukseen tulevat toiminnot
 
-* Käyttäjä pystyy etsimään tuotteita hakusanalla.
 * Käyttäjä pystyy valitsemaan tuotteelle yhden tai useamman luokittelun (tuotteen osasto, esim. hevi, maitotuotteet, tuotteen yksikön esim. kg, litra, tölkki ja tuotteen hinnan).
 * Käyttäjä pystyy luomaan kauppalistan tuotteista.
 * Käyttäjä näkee sovellukseen lisätyt kauppalistat.

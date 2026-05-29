@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tuotteen poisto</title>
+</head>
+
+<body>
+  <h1>Tuotteen poisto</h1>
+<p>Tuote: {{product.name}}</p>
+<p>Haluatko varmasti poistaa tämän tuotteen?</p>
+<form action="/remove_product/{{product.id}}" method="post">
+    <input type="submit" name="remove" value="Poista tuote">
+    <input type="submit" name="back" value="Takaisin">
+</form>       
+</body>
+
+</html>

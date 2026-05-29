@@ -25,3 +25,7 @@ def update_product(product_id, name, price):
                                     price = ?
                             WHERE id = ? """
     db.execute(sql, [name, price, product_id])
+
+def remove_product(product_id):
+    sql = "DELETE FROM products WHERE id = ?"
+    db.execute(sql, [product_id])

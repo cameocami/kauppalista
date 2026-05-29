@@ -48,6 +48,18 @@ def update_product():
 
     return redirect("/product/" +str(product_id))
 
+@app.route("/remove_product/<int:product_id>", methods=["GET", "POST"])
+def remove_product(product_id):
+    if request.method == "GET":
+        product = products.get_product(product_id)
+        return render_template("remove_product.html", product=product)
+    if request.method == "POST":
+        if "remove" in request.form:
+            products.remove_product(product_id)
+            return redirect("/")
+        else:
+            return redirect("/product/" + str(product_id))
+
 @app.route("/register")
 def register():
     return render_template("register.html")

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Käyttäjä {{user.username}}</title>
+</head>
+
+<body>
+
+  <h1>Käyttäjä {{user.username}}</h1>
+  <p>Käyttäjällä on luonut yhteensä {{ products | count }} tuotetta:</p>
+  <h2>Luodut tuotteet</h2>
+    <ul>
+    {% for product in products %}
+    <li><a href="/product/{{product.id}}">{{product.name}}</a></li>
+    {% endfor %}
+  </ul>
+  <p>
+    <a href="/">Takaisin</a>
+  </p>
+</body>
+
+</html>

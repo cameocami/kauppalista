@@ -4,7 +4,7 @@ from flask import abort, redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
-import products
+import products, users
 import re
 
 app = Flask(__name__)
@@ -108,6 +108,14 @@ def remove_product(product_id):
             return redirect("/")
         else:
             return redirect("/product/" + str(product_id))
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    products = users.get_products(user_id)
+    return render_template("show_user.html", user=user, products=products)
 
 @app.route("/register")
 def register():

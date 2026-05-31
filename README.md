@@ -14,3 +14,24 @@
 * Käyttäjä pystyy luomaan kauppalistan tuotteista.
 * Käyttäjä näkee sovellukseen lisätyt kauppalistat.
 * Sovelluksessa on käyttäjäsivut, jotka näyttävät tilastoja ja käyttäjän lisäämät kauppalistat.
+
+## Sovelluksen asennus
+
+Asenna `flask`-kirjasto:
+
+```
+$ pip install flask
+```
+
+Luo tietokannan taulut ja lisää alkutiedot:
+
+```
+$ sqlite3 database.db < schema.sql
+$ sqlite3 database.db < init.sql
+```
+
+Voit käynnistää sovelluksen näin:
+
+```
+$ flask run
+```

@@ -3,14 +3,15 @@
 ## Sovelluksen tämänhetkiset toiminnot
 
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
-* Käyttäjä pystyy lisäämään tuotteita tietokantaan. 
+* Käyttäjä pystyy lisäämään tuotteita tietokantaan nimellä ja hinnalla.
 * Käyttäjä pystyy muokkaamaan ja poistamaan tuotteita.
 * Käyttäjä näkee sovellukseen lisätyt tuotteet.
 * Käyttäjä pystyy etsimään tuotteita hakusanalla.
+* Luodessaan uutta tuotetta käyttäjä pystyy valitsemaan tuotteelle osaston ja yksikön.
 
 ## Sovellukseen tulevat toiminnot
 
-* Käyttäjä pystyy valitsemaan tuotteelle yhden tai useamman luokittelun (tuotteen osasto, esim. hevi, maitotuotteet, tuotteen yksikön esim. kg, litra, tölkki ja tuotteen hinnan).
+* Käyttäjä pystyy muokkaamaan tuotteen osastoa ja yksikköä.
 * Käyttäjä pystyy luomaan kauppalistan tuotteista.
 * Käyttäjä näkee sovellukseen lisätyt kauppalistat.
 * Sovelluksessa on käyttäjäsivut, jotka näyttävät tilastoja ja käyttäjän lisäämät kauppalistat.
@@ -23,11 +24,10 @@ Asenna `flask`-kirjasto:
 $ pip install flask
 ```
 
-Luo tietokannan taulut ja lisää alkutiedot:
+Luo tietokannan taulut:
 
 ```
 $ sqlite3 database.db < schema.sql
-$ sqlite3 database.db < init.sql
 ```
 
 Voit käynnistää sovelluksen näin:

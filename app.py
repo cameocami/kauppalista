@@ -4,7 +4,7 @@ from flask import abort, redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
-import products, users
+import products, users, units, departments
 import re
 
 app = Flask(__name__)
@@ -60,9 +60,11 @@ def create_product():
     price = request.form["price"]
     validate_price(price)
     user_id = session["user_id"]
-
-    products.add_product(name, price, user_id)
-
+    unit = request.form["unit"]
+    unit_id = units.get_unit(unit)[0]
+    department = request.form["department"]
+    department_id = departments.get_department(department)[0]
+    products.add_product(name, price, user_id, unit_id, department_id)
     return redirect("/")
 
 @app.route("/edit_product/<int:product_id>")

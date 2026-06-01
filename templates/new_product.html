@@ -21,9 +21,29 @@
       <input type="text" name="name" maxlength="50" required/>
     </p>
     <p>
-      Hinta: <br />
-      <input type="text" name="price" size="5" value="0,00" pattern="^\d+(,\d{0,2})?$" required/> €
+
+      Hinta:<input type="text" name="price" size="5" value="0,00" pattern="^\d+(,\d{0,2})?$" required/> € /
+      <select name="unit">
+        <option value="piece">kappale</option>
+        <option value="kilogram">kg</option>
+        <option value="liter">l</option>
+      </select>
     </p>
+    <p>Osasto:<select name="department">
+      <option value="uncategorized">(valitse)</option>
+      <option value="fresh">Hedelmät ja vihannekset</option>
+      <option value="baked">Leivät ja leivonnaiset</option>
+      <option value="dairy">Maitotuotteet</option>
+      <option value="meat_fish">Liha, kala ja lihankorvikkeet</option>
+      <option value="ready_to_eat">Valmisruoka</option>
+      <option value="pantry">Kuivatuotteet</option>
+      <option value="drinks">Juomat</option>
+      <option value="frozen">Pakaste</option>
+      <option value="hygiene">Hygieniatuotteet</option>
+      <option value="kids_pets">Lapset ja eläimet</option>
+    </select>
+  </p>
+
     <input type="submit" value="Luo tuote" />
   </form>
 

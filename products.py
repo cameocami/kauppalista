@@ -1,8 +1,10 @@
-import db
+import db, departments, units
 
-def add_product(name, price, user_id):
-    sql = "INSERT INTO products (name, price, user_id) VALUES (?, ?, ?)"
-    db.execute(sql, [name, price, user_id])
+def add_product(name, price, user_id, unit_id, department_id):
+    sql = """INSERT INTO products
+        (name, price, user_id, unit_id, department_id)
+        VALUES (?, ?, ?, ?, ?)"""
+    db.execute(sql, [name, price, user_id, unit_id, department_id])
 
 def get_products():
     sql = "SELECT id, name FROM products ORDER BY id DESC"
@@ -22,9 +24,9 @@ def get_product(product_id):
     return result[0] if result else None
 
 def update_product(product_id, name, price):
-    sql = """UPDATE products    SET name = ?,
-                                    price = ?
-                            WHERE id = ? """
+    sql = """   UPDATE products
+                SET name = ?, price = ?
+                WHERE id = ? """
     db.execute(sql, [name, price, product_id])
  
 def remove_product(product_id):

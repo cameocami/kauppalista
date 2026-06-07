@@ -7,27 +7,12 @@ CREATE TABLE departments (
     id INTEGER PRIMARY KEY,
     name TEXT
 );
-INSERT into departments (name) VALUES
-      ('uncategorized'),
-      ('fresh'),
-      ('baked'),
-      ('dairy'),
-      ('meat_fish'),
-      ('ready_to_eat'),
-      ('pantry'),
-      ('drinks'),
-      ('frozen'),
-      ('hygiene'),
-      ('kids_pets');
 
 CREATE TABLE units (
     id INTEGER PRIMARY KEY,
     name TEXT
 );
-INSERT into units (name) VALUES
-      ('piece'),
-      ('kilogram'),
-      ('liter');
+
 CREATE TABLE products (
     id INTEGER PRIMARY KEY,
     name TEXT,

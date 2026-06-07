@@ -28,9 +28,14 @@ Luo tietokannan taulut:
 
 ```
 $ sqlite3 database.db < schema.sql
+
+```
+Alusta tietokannan tiedot:
+```
+$ sqlite3 database.db < init.sql
 ```
 
-Voit käynnistää sovelluksen näin:
+Käynnistä sovellus komennolla:
 
 ```
 $ flask run

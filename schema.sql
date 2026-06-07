@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS departments;
+DROP TABLE IF EXISTS units;
+DROP TABLE IF EXISTS products;
+
 CREATE TABLE users (
     id INTEGER PRIMARY KEY,
     username TEXT UNIQUE,
@@ -5,12 +10,14 @@ CREATE TABLE users (
 );
 CREATE TABLE departments (
     id INTEGER PRIMARY KEY,
-    name TEXT
+    name TEXT,
+    display_name TEXT
 );
 
 CREATE TABLE units (
     id INTEGER PRIMARY KEY,
-    name TEXT
+    name TEXT,
+    display_name TEXT
 );
 
 CREATE TABLE products (

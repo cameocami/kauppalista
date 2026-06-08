@@ -21,7 +21,7 @@
       <input type="text" name="name" maxlength="50" required/>
     </p>
     <p>
-      Hinta:<input type="text" name="price" size="5" value="0,00" pattern="^\d+(,\d{0,2})?$" required/> € /
+      Hinta:<input type="text" name="price" size="5" value="0,00" pattern="^^(0|[1-9]\d*)([,\.]\d{1,2})?" required/> € /
       <select name="unit">
         {% for unit in units %}
         <option value="{{unit.name}}">{{unit.display_name}}</option>

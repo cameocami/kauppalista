@@ -1,4 +1,4 @@
-import db
+import db, shopping_list_items
 
 def add_product(name, price, user_id, unit_id, department_id):
     sql = """INSERT INTO products
@@ -31,8 +31,9 @@ def update_product(product_id, name, price, unit_id, department_id):
                 SET name = ?, price = ?, unit_id = ?, department_id = ?
                 WHERE id = ? """
     db.execute(sql, [name, price, unit_id, department_id, product_id])
- 
+
 def remove_product(product_id):
+    shopping_list_items.remove_product_from_all(product_id)
     sql = "DELETE FROM products WHERE id = ?"
     db.execute(sql, [product_id])
 

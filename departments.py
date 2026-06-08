@@ -9,3 +9,4 @@ def get_all_departments():
     sql = "SELECT name, display_name FROM departments ORDER BY id"
     result = db.query(sql)
     return result
+

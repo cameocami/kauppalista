@@ -14,7 +14,7 @@
     </p>
     <p>
       Hinta: <br />
-      <input type="text" name="price" size="5" value="{{product.price}}" pattern="^\d+(,\d{0,2})?$" required/> € /
+      <input type="text" name="price" size="5" value="{{product.price}}" pattern="(0|[1-9]\d*)([,\.]\d{1,2})?" required/> € /
       <select name="unit">
         {% for unit in units %}
           {% if unit.display_name == product.unit%}

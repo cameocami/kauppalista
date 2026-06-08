@@ -12,7 +12,7 @@ def require_login():
         abort(403)
 
 def validate_price(price):
-    price_regex = r'(^\d+(\,\d{1,2})?$)'
+    price_regex = r'^(0|[1-9]\d*)([,\.]\d{1,2})?'
     if not re.match(price_regex, price):
         abort(403)
     if len(price) > 8:
@@ -30,6 +30,13 @@ def validate_unit(unit):
 def validate_department(department):
     all_departments = [department["name"] for department in departments.get_all_departments()]
     if department not in all_departments:
+        abort(403)
+
+def validate_amount(amount):
+    amount_regex = r'^(0|[1-9]\d*)([,\.]\d{1,2})?'
+    if not re.match(amount_regex, amount):
+        abort(403)
+    if len(amount) > 8:
         abort(403)
 
 @app.route("/")
@@ -54,15 +61,21 @@ def show_product(product_id):
         abort(404)
     return render_template("show_product.html", product=product)
 
-@app.route("/add_item//<int:product_id>", methods= ["POST"])
+@app.route("/add_item/<int:product_id>", methods= ["POST"])
 def add_item(product_id):
     require_login()
     product = products.get_product(product_id)
     if not product:
         abort(404)
-    amount = request.form["amount"]
+    added_amount = request.form["amount"]
+    validate_amount(added_amount)
+    added_amount = float(added_amount)
     shopping_list_id = session["shopping_list_id"]
-    shopping_list_items.add_item(shopping_list_id, product_id, amount)
+    if shopping_list_items.is_on_list(product_id, shopping_list_id):
+        existing_amount = shopping_list_items.amount(product_id, shopping_list_id)
+        shopping_list_items.update_amount(existing_amount + added_amount, shopping_list_id, product_id)
+    else:
+        shopping_list_items.add_new(shopping_list_id, product_id, added_amount)
     return render_template("show_product.html", product=product)
 
 @app.route("/new_product")
@@ -135,6 +148,7 @@ def remove_product(product_id):
         return render_template("remove_product.html", product=product)
     if request.method == "POST":
         if "remove" in request.form:
+            shopping_list_items.remove_product_from_all(product_id)
             products.remove_product(product_id)
             return redirect("/")
         else:

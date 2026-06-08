@@ -8,7 +8,4 @@ def get_department_id(department_name):
 def get_all_departments():
     sql = "SELECT name, display_name FROM departments ORDER BY id"
     result = db.query(sql)
-    departments = []
-    for row in result:
-        departments.append([row[0],row[1]])
-    return departments
+    return result

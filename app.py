@@ -49,7 +49,7 @@ def new_product():
     require_login()
     all_units = units.get_all_units()
     all_departments= departments.get_all_departments()
-    return render_template("new_product.html", all_units=all_units, all_departments=all_departments)
+    return render_template("new_product.html", units=all_units, departments=all_departments)
 
 @app.route("/create_product", methods=["POST"])
 def create_product():

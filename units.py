@@ -8,7 +8,4 @@ def get_unit_id(unit_name):
 def get_all_units():
     sql = "SELECT name, display_name FROM units ORDER BY id"
     result = db.query(sql)
-    units = []
-    for row in result:
-        units.append([row[0],row[1]])
-    return units
+    return result

@@ -23,15 +23,15 @@
     <p>
       Hinta:<input type="text" name="price" size="5" value="0,00" pattern="^\d+(,\d{0,2})?$" required/> € /
       <select name="unit">
-        {% for unit in all_units %}
-        <option value="{{unit[0]}}">{{unit[1]}}</option>
+        {% for unit in units %}
+        <option value="{{unit.name}}">{{unit.display_name}}</option>
         {% endfor %}
       </select>
     </p>
     <p>Osasto:<select name="department">
       <option value="">(valinta)</option>
-      {% for department in all_departments %}
-      <option value="{{department[0]}}">{{department[1]}}</option>
+      {% for department in departments %}
+      <option value="{{department.name}}">{{department.display_name}}</option>
       {% endfor %}
     </select>
   </p>

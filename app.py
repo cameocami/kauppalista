@@ -22,6 +22,16 @@ def validate_name(name):
     if len(name) > 50 or not name:
         abort(403)
 
+def validate_unit(unit):
+    all_units = [unit["name"] for unit in units.get_all_units()]
+    if unit not in all_units:
+        abort(403)
+
+def validate_department(department):
+    all_departments = [department["name"] for department in departments.get_all_departments()]
+    if department not in all_departments:
+        abort(403)
+
 @app.route("/")
 def index():
     all_products = products.get_products()
@@ -60,8 +70,10 @@ def create_product():
     validate_price(price)
     user_id = session["user_id"]
     unit = request.form["unit"]
+    validate_unit(unit)
     unit_id = units.get_unit_id(unit)
     department = request.form["department"]
+    validate_department(department)
     department_id = departments.get_department_id(department)
     products.add_product(name, price, user_id, unit_id, department_id)
     return redirect("/")
@@ -92,8 +104,10 @@ def update_product():
     price = request.form["price"]
     validate_price(price)
     unit = request.form["unit"]
+    validate_unit(unit)
     unit_id = units.get_unit_id(unit)
     department = request.form["department"]
+    validate_department(department)
     department_id = departments.get_department_id(department)
     products.update_product(product_id, name, price, unit_id, department_id)
     return redirect("/product/" +str(product_id))

@@ -9,14 +9,19 @@
 
     {% if session.user_id == product.user_id%}
   <p>
-    <a href="/edit_product/{{ product.id }}">Muokkaa</a>
-    <a href="/remove_product/{{ product.id }}">Poista</a>
+    <a href="/edit_product/{{ product.id }}">Muokkaa tuotetta</a>
+    <a href="/remove_product/{{ product.id }}">Poista tuote</a>
   </p>
   {% endif %}
   <p>
 
   <h1>{{product.name}}</h1>
-  <p>
+  <form action="/add_item/{{ product.id }}" method="post">
+    <p>
+  Lisää omaan kauppalistaan <input type="text" name="amount" size="5" required/>  {{product.unit}}
+  <input type="submit" name="submit" value="+" /> </p>
+  </form>
+<p>
     Hinta: {{product.price}} € / {{product.unit}}
   </p>
   <p>

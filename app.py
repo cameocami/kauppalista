@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import abort, redirect, render_template, request, session
 import config
-import products, users, units, departments
+import products, users, units, departments, shopping_lists, shopping_list_items
 import re
 
 app = Flask(__name__)
@@ -52,6 +52,17 @@ def show_product(product_id):
     product = products.get_product(product_id)
     if not product:
         abort(404)
+    return render_template("show_product.html", product=product)
+
+@app.route("/add_item//<int:product_id>", methods= ["POST"])
+def add_item(product_id):
+    require_login()
+    product = products.get_product(product_id)
+    if not product:
+        abort(404)
+    amount = request.form["amount"]
+    shopping_list_id = session["shopping_list_id"]
+    shopping_list_items.add_item(shopping_list_id, product_id, amount)
     return render_template("show_product.html", product=product)
 
 @app.route("/new_product")
@@ -134,8 +145,9 @@ def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    products = users.get_products(user_id)
-    return render_template("show_user.html", user=user, products=products)
+    shopping_list_id = shopping_lists.get_id(user_id)
+    shopping_list = shopping_list_items.get_items(shopping_list_id)
+    return render_template("show_user.html", user=user, shopping_list=shopping_list)
 
 @app.route("/register")
 def register():
@@ -165,6 +177,11 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
+            shopping_list_id = shopping_lists.get_id(user_id)
+            if not shopping_list_id:
+                shopping_lists.add("Default", user_id)
+                shopping_list_id = shopping_lists.get_id(user_id)
+            session["shopping_list_id"] = shopping_list_id
             return redirect("/")
         return "VIRHE: väärä tunnus tai salasana"
 

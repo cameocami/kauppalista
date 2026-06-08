@@ -17,11 +17,15 @@
 
   <h1>{{product.name}}</h1>
   <p>
-    Hinta: {{product.price}} €
+    Hinta: {{product.price}} € / {{product.unit}}
+  </p>
+  <p>
+    Osasto: {{product.department}}
   </p>
    <p>
     Luonut: <a href="/user/{{product.user_id}}"> {{product.username}} </a>
   </p>
+
   <p>
     <a href="/">Takaisin</a>
   </p>

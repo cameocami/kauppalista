@@ -1,4 +1,4 @@
-import db, departments, units
+import db
 
 def add_product(name, price, user_id, unit_id, department_id):
     sql = """INSERT INTO products
@@ -14,12 +14,15 @@ def get_product(product_id):
     sql = """   SELECT      products.id,
                             products.name,
                             products.price,
-                            users.id user_id,
-                            users.username
-                FROM        products, 
-                            users
-                WHERE   products.user_id = users.id AND
-                        products.id = ? """
+                            users.id AS user_id,
+                            users.username,
+                            units.display_name AS unit,
+                            departments.display_name AS department
+                FROM        products
+                JOIN        users ON products.user_id = users.id
+                JOIN        units ON units.id = products.unit_id
+                JOIN        departments ON departments.id = products.department_id
+                WHERE       products.id = ?"""
     result = db.query(sql, [product_id])
     return result[0] if result else None
 

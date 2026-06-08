@@ -74,7 +74,9 @@ def edit_product(product_id):
         abort(404)
     if product["user_id"] != session["user_id"]:
         abort(403)
-    return render_template("edit_product.html", product=product)
+    all_units = units.get_all_units()
+    all_departments= departments.get_all_departments()
+    return render_template("edit_product.html", product=product,  units=all_units, departments=all_departments)
 
 @app.route("/update_product", methods=["POST"])
 def update_product():
@@ -89,8 +91,11 @@ def update_product():
     validate_name(name)
     price = request.form["price"]
     validate_price(price)
-    products.update_product(product_id, name, price)
-
+    unit = request.form["unit"]
+    unit_id = units.get_unit_id(unit)
+    department = request.form["department"]
+    department_id = departments.get_department_id(department)
+    products.update_product(product_id, name, price, unit_id, department_id)
     return redirect("/product/" +str(product_id))
 
 @app.route("/remove_product/<int:product_id>", methods=["GET", "POST"])

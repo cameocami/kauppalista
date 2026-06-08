@@ -26,11 +26,11 @@ def get_product(product_id):
     result = db.query(sql, [product_id])
     return result[0] if result else None
 
-def update_product(product_id, name, price):
+def update_product(product_id, name, price, unit_id, department_id):
     sql = """   UPDATE products
-                SET name = ?, price = ?
+                SET name = ?, price = ?, unit_id = ?, department_id = ?
                 WHERE id = ? """
-    db.execute(sql, [name, price, product_id])
+    db.execute(sql, [name, price, unit_id, department_id, product_id])
  
 def remove_product(product_id):
     sql = "DELETE FROM products WHERE id = ?"

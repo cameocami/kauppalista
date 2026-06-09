@@ -205,7 +205,14 @@ def create_user():
     if not users.check_availability(username):
         return "VIRHE: käyttäjätunnus on jo käytössä"
     users.create_user(username,password1)
-    return "Tunnus luotu"
+    user_id = users.check_login(username, password1)
+    if user_id:
+        session["user_id"] = user_id
+        session["username"] = username
+        shopping_lists.add("Oma Kauppalista", user_id)
+        shopping_list_id = shopping_lists.get_id(user_id)
+        session["shopping_list_id"] = shopping_list_id
+    return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

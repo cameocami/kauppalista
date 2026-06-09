@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Etsi tuote</title>
-</head>
+{% block title %}Etsi tuote{% endblock %}
 
-<body>
-  <h1>Etsi tuote</h1>
+{% block content %}
+
   <form action="/find_product" method="get">
     <p>
       Hakusana: <br />
@@ -25,6 +22,5 @@
     {% endfor %}
   </ul>
   {%endif%}
-</body>
 
-</html>
+{% endblock %}

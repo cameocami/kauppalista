@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Uusi tuote</title>
-</head>
+{% block title %}Uusi tuote{% endblock %}
 
-<body>
-  
-  {% if session.username %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}, id-numerosi {{ session.user_id}}
-  </p>
-  {% endif %}
-  <p>
+{% block content %}
 
-  <h1>Uusi tuote</h1>
   <form action="/create_product" method="post">
     <p>
       Tuotteen nimi: <br />
@@ -34,12 +23,7 @@
       <option value="{{department.name}}">{{department.display_name}}</option>
       {% endfor %}
     </select>
-  </p>
-
+    </p>
     <input type="submit" value="Luo tuote" />
   </form>
-
- 
-</body>
-
-</html>
+{% endblock %}

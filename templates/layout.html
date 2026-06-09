@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Kauppalistat</title>
+</head>
+
+<body>
+  <div class="header">
+    <h1>Kauppalista-sovellus</h1>
+  </div>
+  {% if session.user_id %}
+  <div>
+    Olet kirjautunut sisään nimellä <a href="/user/{{session.user_id}}"> {{session.username}}</a>
+  </div>
+  {% endif %}
+  <div class="nav">
+    <nav>
+      <p>
+        <a href="/">Etusivu</a> |
+        <a href="/find_product">Etsi tuote</a> |
+        {% if session.user_id %}
+        <a href="/new_product">Uusi tuote</a> |
+        <a href="/user/{{session.user_id}}">Kauppalista</a> |
+        <a href="/logout">Kirjaudu ulos</a> 
+        {% else %}
+        <a href="/login">Kirjaudu sisään</a> |
+        <a href="/register">Luo tunnus</a> 
+        {% endif %}
+      </p>
+    </nav>
+  </div>
+
+    <h2>{% block title %}{% endblock %}</h2>
+  <div class="content">
+
+    {% block content %}{% endblock %}
+  </div>
+</body>
+
+</html>

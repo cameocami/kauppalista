@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Tuotteen muokkaus</title>
-</head>
+{% block title %}Tuotteen muokkaus{% endblock %}
 
-<body>
-  <h1>Tuotteen muokkaus</h1>
+{% block content %}
   <form action="/update_product" method="post">
     <p>
       Tuotteen nimi: <br />
@@ -34,13 +30,8 @@
         {% endif %}
       {% endfor %}
     </select>
-  </p>
     </p>
     <input type="hidden" name="product_id" value="{{ product.id }}" />
     <input type="submit" value="Päivitä" />
   </form>
-
- 
-</body>
-
-</html>
+{% endblock %}

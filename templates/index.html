@@ -1,37 +1,12 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Kauppalista-sovellus</title>
-</head>
+{% block title %}Kaikki tuotteet{% endblock %}
 
-<body>
-  <h1>Kauppalista-sovellus</h1>
-  {% if session.username %}
-  <p>
-    Olet kirjautunut sisään nimellä <a href="/user/{{session.user_id}}"> {{session.username}}</a>. <a href= "/logout">kirjaudu ulos</a>
-  </p>
-  {% else %}
-  <p>
-    <a href= "/login">Kirjaudu sisään</a>
-    <a href= "/register">Luo tunnus</a>
-  </p>
-  {% endif %}
-  {% if session.username %}
-  <p>
-    <a href="/new_product">Uusi tuote</a>
-  </p>
-  {% endif %}
-  <p>
-    <a href="/find_product">Etsi tuotteita</a>
-  </p>
-  <h2>Tuotteet</h2>
+{% block content %}
   <ul>
   {% for product in products %}
   <li><a href="/product/{{product.id}}">{{product.name}}</a></li>
   {%endfor%}
   </ul>
 
-</body>
-
-</html>
+{% endblock %}

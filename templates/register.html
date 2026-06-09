@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Rekisteröinti</title>
-</head>
+{% block title %}Luo tunnus{% endblock %}
 
-<body>
+{% block content %}
+
   <form action="/create_user" method="post">
     <p>
       Tunnus: <br />
@@ -21,6 +19,4 @@
     </p>
     <input type="submit" value="Luo tunnus" />
   </form>
-</body>
-
-</html>
+{% endblock %}

@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>{{product.name}}</title>
-</head>
+{% block title %}{{product.name}}{% endblock %}
 
-<body>
+{% block content %}
 
     {% if session.user_id == product.user_id%}
   <p>
-    <a href="/edit_product/{{ product.id }}">Muokkaa tuotetta</a>
-    <a href="/remove_product/{{ product.id }}">Poista tuote</a>
+    <a href="/edit_product/{{ product.id }}">Muokkaa</a> | <a href="/remove_product/{{ product.id }}">Poista</a>
   </p>
   {% endif %}
   <p>
 
-  <h1>{{product.name}}</h1>
   <form action="/add_item/{{ product.id }}" method="post">
     <p>
   Lisää omaan kauppalistaan <input type="text" name="amount" size="5" pattern="^(0|[1-9]\d*)([,\.]\d{1,2})?" required/>  {{product.unit}}
@@ -34,6 +29,4 @@
   <p>
     <a href="/">Takaisin</a>
   </p>
-</body>
-
-</html>
+{% endblock %}

@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>{{user.username}}:n kauppalista</title>
-</head>
+{% block title %}{{user.username}}:n kauppalista{% endblock %}
 
-<body>
+{% block content %}
 
-  <h1>Käyttäjän {{user.username}} kauppalista</h1>
   <p>yhteensä {{ shopping_list | count }} tuotetta:</p>
     <ul>
     {% for item in shopping_list %}
@@ -16,6 +12,4 @@
   </ul>
     <a href="/">Takaisin</a>
   </p>
-</body>
-
-</html>
+{% endblock %}

@@ -39,10 +39,16 @@ def validate_amount(amount):
     if len(amount) > 8:
         abort(403)
 
+def current_shopping_list():
+    shopping_list_id = session["shopping_list_id"]
+    shopping_list = shopping_list_items.get_items(shopping_list_id)
+    return shopping_list
+
 @app.route("/")
 def index():
     all_products = products.get_products()
-    return render_template("index.html", products=all_products)
+    shopping_list = current_shopping_list()
+    return render_template("index.html", products=all_products, shopping_list=shopping_list)
 
 @app.route("/find_product")
 def find_product():
@@ -52,14 +58,16 @@ def find_product():
     else:
         query = ""
         results = []
-    return render_template("find_product.html", query=query, results=results)
+    shopping_list = current_shopping_list()
+    return render_template("find_product.html", query=query, results=results, shopping_list=shopping_list)
 
 @app.route("/product/<int:product_id>")
 def show_product(product_id):
     product = products.get_product(product_id)
     if not product:
         abort(404)
-    return render_template("show_product.html", product=product)
+    shopping_list = current_shopping_list()
+    return render_template("show_product.html", product=product, shopping_list=shopping_list)
 
 @app.route("/add_item/<int:product_id>", methods= ["POST"])
 def add_item(product_id):
@@ -76,14 +84,16 @@ def add_item(product_id):
         shopping_list_items.update_amount(existing_amount + added_amount, shopping_list_id, product_id)
     else:
         shopping_list_items.add_new(shopping_list_id, product_id, added_amount)
-    return render_template("show_product.html", product=product)
+    shopping_list = current_shopping_list()
+    return render_template("show_product.html", product=product, shopping_list=shopping_list)
 
 @app.route("/new_product")
 def new_product():
     require_login()
     all_units = units.get_all_units()
     all_departments= departments.get_all_departments()
-    return render_template("new_product.html", units=all_units, departments=all_departments)
+    shopping_list = current_shopping_list()
+    return render_template("new_product.html", units=all_units, departments=all_departments, shopping_list=shopping_list)
 
 @app.route("/create_product", methods=["POST"])
 def create_product():
@@ -112,7 +122,8 @@ def edit_product(product_id):
         abort(403)
     all_units = units.get_all_units()
     all_departments= departments.get_all_departments()
-    return render_template("edit_product.html", product=product,  units=all_units, departments=all_departments)
+    shopping_list = current_shopping_list()
+    return render_template("edit_product.html", product=product,  units=all_units, departments=all_departments, shopping_list=shopping_list)
 
 @app.route("/update_product", methods=["POST"])
 def update_product():
@@ -145,7 +156,8 @@ def remove_product(product_id):
     if product["user_id"] != session["user_id"]:
         abort(403)
     if request.method == "GET":
-        return render_template("remove_product.html", product=product)
+        shopping_list = current_shopping_list()
+        return render_template("remove_product.html", product=product, shopping_list=shopping_list)
     if request.method == "POST":
         if "remove" in request.form:
             shopping_list_items.remove_product_from_all(product_id)
@@ -160,12 +172,14 @@ def show_user(user_id):
     if not user:
         abort(404)
     shopping_list_id = shopping_lists.get_id(user_id)
-    shopping_list = shopping_list_items.get_items(shopping_list_id)
-    return render_template("show_user.html", user=user, shopping_list=shopping_list)
+    user_shopping_list = shopping_list_items.get_items(shopping_list_id)
+    shopping_list = current_shopping_list()
+    return render_template("show_user.html", user=user, user_shopping_list=user_shopping_list, shopping_list=shopping_list)
 
 @app.route("/register")
 def register():
-    return render_template("register.html")
+    shopping_list = current_shopping_list()
+    return render_template("register.html", shopping_list=shopping_list)
 
 @app.route("/create_user", methods=["POST"])
 def create_user():
@@ -182,7 +196,8 @@ def create_user():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        shopping_list = current_shopping_list()
+        return render_template("login.html", shopping_list=shopping_list)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -204,4 +219,7 @@ def logout():
     require_login()
     del session["username"]
     del session["user_id"]
+    del session["shopping_list_id"]
     return redirect("/")
+
+

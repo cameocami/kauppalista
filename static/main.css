@@ -1,0 +1,16 @@
+body {
+  background-color: #e0e0e0; 
+  color: #222; 
+  line-height: 1.6; 
+  margin: auto;
+  max-width: 50em;
+  font-family: sans-serif;
+}
+
+aside {
+  width: 40%;
+  padding-left: 1rem;
+  float: right;
+}
+
+

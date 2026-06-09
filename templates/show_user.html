@@ -4,9 +4,9 @@
 
 {% block content %}
 
-  <p>yhteensä {{ shopping_list | count }} tuotetta:</p>
+  <p>yhteensä {{ user_shopping_list | count }} tuotetta:</p>
     <ul>
-    {% for item in shopping_list %}
+    {% for item in user_shopping_list %}
     <li><a href="/product/{{item.id}}">{{item.name}}</a>,  {{item.amount}}  {{item.unit_display_name}}</li>
     {% endfor %}
   </ul>

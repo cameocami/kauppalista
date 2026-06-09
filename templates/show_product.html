@@ -10,12 +10,13 @@
   </p>
   {% endif %}
   <p>
-
+    {% if session.shopping_list_id%}
   <form action="/add_item/{{ product.id }}" method="post">
     <p>
-  Lisää omaan kauppalistaan <input type="text" name="amount" size="5" pattern="^(0|[1-9]\d*)([,\.]\d{1,2})?" required/>  {{product.unit}}
+  Lisää kauppalistaan <input type="text" name="amount" size="5" pattern="^(0|[1-9]\d*)([,\.]\d{1,2})?" required/>  {{product.unit}}
   <input type="submit" name="submit" value="+" /> </p>
   </form>
+    {% endif %}
 <p>
     Hinta: {{product.price}} € / {{product.unit}}
   </p>

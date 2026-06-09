@@ -7,7 +7,13 @@ def add_product(name, price, user_id, unit_id, department_id):
     db.execute(sql, [name, price, user_id, unit_id, department_id])
 
 def get_products():
-    sql = "SELECT id, name FROM products ORDER BY id DESC"
+    sql = """   SELECT  products.id, 
+                        products.name,
+                        units.display_name AS unit
+                FROM    products,
+                        units
+                WHERE   products.unit_id = units.id
+                ORDER BY products.id DESC"""
     return db.query(sql)
 
 def get_product(product_id):

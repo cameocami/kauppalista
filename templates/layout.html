@@ -3,9 +3,9 @@
 
 <head>
   <title>Kauppalistat</title>
+  <link rel="stylesheet" href="/static/main.css">
 </head>
 
-<body>
   <div class="header">
     <h1>Kauppalista-sovellus</h1>
   </div>
@@ -30,12 +30,22 @@
       </p>
     </nav>
   </div>
+  {% if session.user_id %}
+   <aside>
+    <h2>Kauppalista</h2>
+    <ul>
+    {% for item in shopping_list %}
+    <li><a href="/product/{{item.id}}">{{item.name}}</a>,  {{item.amount}}  {{item.unit_display_name}}</li>
+    {% endfor %}
+  </ul>
+
+  </aside>
+  {% endif %}
+  <div class="content">
 
     <h2>{% block title %}{% endblock %}</h2>
-  <div class="content">
 
     {% block content %}{% endblock %}
   </div>
-</body>
-
+ 
 </html>

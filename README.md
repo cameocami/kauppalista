@@ -10,12 +10,12 @@
 * Luodessaan uutta tuotetta käyttäjä pystyy valitsemaan tuotteelle osaston ja yksikön.
 * Käyttäjä pystyy muokkaamaan tuotteen osastoa ja yksikköä.
 * Käyttäjällä on kauppalista, johon hän pystyy lisäämään tuotteita. 
+* Käyttäjä pystyy muokkaamaan tuotteen määrää kauppalistallaan.
 
 ## Sovellukseen tulevat toiminnot
 
-* Käyttäjä pystyy muokkaamaan tuotteen määrää kauppalistallaan.
 * Käyttäjä pystyy poistamaan tuotteita kauppalistaltaan.
-* Käyttäjä näkee kunkin tuotteen kohdalla millä kauppalistoilla tuote on.
+* Käyttäjä näkee kunkin tuotteen kohdalla kenen kauppalistoilla tuote on.
 * Käyttäjä pystyy tallentamaan ja avaamaan uuden kauppalistan.
 * Käyttäjä näkee sovellukseen lisätyt kauppalistat.
 * Sovelluksessa on käyttäjäsivut, jotka näyttävät tilastoja ja käyttäjän lisäämät kauppalistat ja tuotteet.

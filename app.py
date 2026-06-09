@@ -87,9 +87,9 @@ def adjust_amount():
     shopping_list_id = session["shopping_list_id"]
     adjust = request.form.get('adjust')
     if adjust == '-':
-        shopping_list_items.substract_amount(amount, product_id, shopping_list_id)
+        shopping_list_items.substract(amount, product_id, shopping_list_id)
     elif adjust == '+':
-        shopping_list_items.add_amount(amount, product_id, shopping_list_id)
+        shopping_list_items.add(amount, product_id, shopping_list_id)
     shopping_list = current_shopping_list()
     return render_template("show_product.html", product=product, shopping_list=shopping_list)
 
@@ -104,15 +104,20 @@ def new_product():
 @app.route("/create_product", methods=["POST"])
 def create_product():
     require_login()
+    user_id = session["user_id"]
     name = request.form["name"]
     validate_name(name)
+    name = name.capitalize()
     price = request.form["price"]
+    if not price:
+        price = 0
     validate_price(price)
-    user_id = session["user_id"]
     unit = request.form["unit"]
     validate_unit(unit)
     unit_id = units.get_unit_id(unit)
     department = request.form["department"]
+    if not department:
+        department = "other"
     validate_department(department)
     department_id = departments.get_department_id(department)
     products.add_product(name, price, user_id, unit_id, department_id)
@@ -142,7 +147,10 @@ def update_product():
         abort(403)
     name = request.form["name"]
     validate_name(name)
+    name = name.capitalize()
     price = request.form["price"]
+    if not price:
+        price = 0
     validate_price(price)
     unit = request.form["unit"]
     validate_unit(unit)

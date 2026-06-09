@@ -16,7 +16,7 @@ def add_new(shopping_list_id, product_id, amount):
         VALUES (?, ?, ?)"""
     db.execute(sql, [shopping_list_id, product_id, amount])
 
-def add_amount(add_amount, product_id, shopping_list_id):
+def add(add_amount, product_id, shopping_list_id):
     if is_on_list(product_id, shopping_list_id):
         sql = """   UPDATE shopping_list_items
                     SET amount = amount + ?
@@ -25,7 +25,7 @@ def add_amount(add_amount, product_id, shopping_list_id):
     else:
         add_new(shopping_list_id, product_id, add_amount)
 
-def substract_amount(sub_amount, product_id, shopping_list_id):
+def substract(sub_amount, product_id, shopping_list_id):
     if is_on_list(product_id, shopping_list_id):
         sql = """   UPDATE shopping_list_items
                     SET amount = amount - ?

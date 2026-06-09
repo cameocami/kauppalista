@@ -19,7 +19,7 @@ def get_products():
 def get_product(product_id):
     sql = """   SELECT      products.id,
                             products.name,
-                            products.price,
+                            printf('%.2f', products.price) AS price,
                             users.id AS user_id,
                             users.username,
                             units.display_name AS unit,

@@ -41,5 +41,5 @@ CREATE TABLE shopping_list_items (
     id INTEGER PRIMARY KEY,
     shopping_list_id INTEGER REFERENCES shopping_lists,
     product_id INTEGER REFERENCES products,
-    amount INTEGER NOT NULL
+    amount FLOAT NOT NULL
 );

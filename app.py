@@ -40,8 +40,10 @@ def validate_amount(amount):
         abort(403)
 
 def current_shopping_list():
-    shopping_list_id = session["shopping_list_id"]
-    shopping_list = shopping_list_items.get_items(shopping_list_id)
+    shopping_list = None
+    if session:
+        shopping_list_id = session["shopping_list_id"]
+        shopping_list = shopping_list_items.get_items(shopping_list_id)
     return shopping_list
 
 @app.route("/")
@@ -69,21 +71,25 @@ def show_product(product_id):
     shopping_list = current_shopping_list()
     return render_template("show_product.html", product=product, shopping_list=shopping_list)
 
-@app.route("/add_item/<int:product_id>", methods= ["POST"])
-def add_item(product_id):
+@app.route("/adjust_amount", methods= ["POST"])
+def adjust_amount():
     require_login()
+    product_id = request.form["product_id"]
     product = products.get_product(product_id)
     if not product:
         abort(404)
-    added_amount = request.form["amount"]
-    validate_amount(added_amount)
-    added_amount = float(added_amount)
-    shopping_list_id = session["shopping_list_id"]
-    if shopping_list_items.is_on_list(product_id, shopping_list_id):
-        existing_amount = shopping_list_items.amount(product_id, shopping_list_id)
-        shopping_list_items.update_amount(existing_amount + added_amount, shopping_list_id, product_id)
+    amount = request.form["amount"]
+    if amount:
+        validate_amount(amount)
     else:
-        shopping_list_items.add_new(shopping_list_id, product_id, added_amount)
+        amount = 1
+    amount = float(amount)
+    shopping_list_id = session["shopping_list_id"]
+    adjust = request.form.get('adjust')
+    if adjust == '-':
+        shopping_list_items.substract_amount(amount, product_id, shopping_list_id)
+    elif adjust == '+':
+        shopping_list_items.add_amount(amount, product_id, shopping_list_id)
     shopping_list = current_shopping_list()
     return render_template("show_product.html", product=product, shopping_list=shopping_list)
 
@@ -208,7 +214,7 @@ def login():
             session["username"] = username
             shopping_list_id = shopping_lists.get_id(user_id)
             if not shopping_list_id:
-                shopping_lists.add("Default", user_id)
+                shopping_lists.add("Oma Kauppalista", user_id)
                 shopping_list_id = shopping_lists.get_id(user_id)
             session["shopping_list_id"] = shopping_list_id
             return redirect("/")

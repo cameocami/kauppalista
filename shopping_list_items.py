@@ -3,12 +3,12 @@ def is_on_list(product_id, shopping_list_id):
     sql = """ SELECT product_id FROM shopping_list_items WHERE product_id = ? AND shopping_list_id = ?
             """
     result = db.query(sql, [product_id, shopping_list_id])
-    return True if result else False
+    return bool(result)
 
 def amount(product_id, shopping_list_id):
     sql = "SELECT amount FROM shopping_list_items WHERE product_id = ? AND shopping_list_id = ?"
     result = db.query(sql, [product_id, shopping_list_id])
-    return int(result[0][0]) if result else None
+    return float(result[0][0]) if result else None
 
 def add_new(shopping_list_id, product_id, amount):
     sql = """INSERT INTO shopping_list_items
@@ -16,11 +16,23 @@ def add_new(shopping_list_id, product_id, amount):
         VALUES (?, ?, ?)"""
     db.execute(sql, [shopping_list_id, product_id, amount])
 
-def update_amount(amount, shopping_list_id, product_id):
-    sql = """   UPDATE shopping_list_items
-                SET amount = ?
-                WHERE shopping_list_id = ? AND product_id = ?"""
-    db.execute(sql, [amount, shopping_list_id, product_id])
+def add_amount(add_amount, product_id, shopping_list_id):
+    if is_on_list(product_id, shopping_list_id):
+        sql = """   UPDATE shopping_list_items
+                    SET amount = amount + ?
+                    WHERE product_id = ? AND shopping_list_id = ?"""
+        db.execute(sql, [add_amount, product_id, shopping_list_id])
+    else:
+        add_new(shopping_list_id, product_id, add_amount)
+
+def substract_amount(sub_amount, product_id, shopping_list_id):
+    if is_on_list(product_id, shopping_list_id):
+        sql = """   UPDATE shopping_list_items
+                    SET amount = amount - ?
+                    WHERE product_id = ? AND shopping_list_id = ?"""
+        db.execute(sql, [sub_amount, product_id, shopping_list_id])
+        if amount(product_id, shopping_list_id) <= 0:
+            remove_product(product_id, shopping_list_id)
 
 def get_items(shopping_list_id):
     sql = """SELECT products.name AS name,
@@ -39,6 +51,10 @@ def get_items(shopping_list_id):
             ORDER BY shopping_list_items.id"""
     result = db.query(sql, [shopping_list_id])
     return result
+
+def remove_product(product_id, shopping_list_id):
+    sql = " DELETE FROM shopping_list_items WHERE product_id = ? AND shopping_list_id = ?"
+    db.execute(sql, [product_id, shopping_list_id])
 
 def remove_product_from_all(product_id):
     sql = " DELETE FROM shopping_list_items WHERE product_id = ?"

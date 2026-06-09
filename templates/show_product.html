@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}{{product.name}}{% endblock %}
+{% block title %}Tuote: {{product.name}}{% endblock %}
 
 {% block content %}
 
@@ -10,14 +10,7 @@
   </p>
   {% endif %}
   <p>
-    {% if session.shopping_list_id%}
-  <form action="/add_item/{{ product.id }}" method="post">
-    <p>
-  Lisää kauppalistaan <input type="text" name="amount" size="5" pattern="^(0|[1-9]\d*)([,\.]\d{1,2})?" required/>  {{product.unit}}
-  <input type="submit" name="submit" value="+" /> </p>
-  </form>
-    {% endif %}
-<p>
+  <p>
     Hinta: {{product.price}} € / {{product.unit}}
   </p>
   <p>
@@ -26,6 +19,13 @@
    <p>
     Luonut: <a href="/user/{{product.user_id}}"> {{product.username}} </a>
   </p>
+  {% if session.shopping_list_id%}
+  <form action="/adjust_amount" method="post">
+    <p><input type="submit" name="adjust" value="-" /> <input type="text" name="amount" size="5" pattern="^(0|[1-9]\d*)([,\.]\d{1,2})?"/>  {{product.unit}}
+  <input type="submit" name="adjust" value="+" /> </p>
+  <input type="hidden" name="product_id" value="{{ product.id }}" />
+  </form>
+    {% endif %}
 
   <p>
     <a href="/">Takaisin</a>

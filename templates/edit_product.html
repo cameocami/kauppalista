@@ -5,13 +5,13 @@
 {% block content %}
   <form action="/update_product" method="post">
     <p>
-      Tuotteen nimi: <br />
-      <input type="text" name="name" value="{{product.name}}" maxlength="50" required/>
+      <label for="name">Tuotteen nimi:</label><br />
+      <input type="text" name="name" id="name" value="{{product.name}}" maxlength="50" required/>
     </p>
     <p>
-      Hinta: <br />
-      <input type="text" name="price" size="5" value="{{product.price}}" pattern="(0|[1-9]\d*)([,\.]\d{1,2})?" required/> € /
-      <select name="unit">
+      <label for="price">Hinta:</label><br />
+      <input type="text" name="price" id="price" size="5" value="{{product.price}}" pattern="(0|[1-9]\d*)([,\.]\d{1,2})?" required/> € /
+      <select name="unit" id="unit">
         {% for unit in units %}
           {% if unit.display_name == product.unit%}
           <option value="{{unit.name}}" selected >{{unit.display_name}}</option>
@@ -21,7 +21,7 @@
         {% endfor %}
       </select>
     </p>
-    <p>Osasto:<select name="department">
+    <p><label for="department">Osasto:</label><select name="department" id="department">
       {% for department in departments %}
         {% if department.display_name == product.department%}
         <option value="{{department.name}}" selected >{{department.display_name}}</option>

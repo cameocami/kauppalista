@@ -21,8 +21,8 @@
   </p>
   {% if session.shopping_list_id%}
   <form action="/adjust_amount" method="post">
-    <p><input type="submit" name="adjust" value="-" /> <input type="text" name="amount" size="5" pattern="^(0|[1-9]\d*)([,\.]\d{1,2})?"/>  {{product.unit}}
-  <input type="submit" name="adjust" value="+" /> </p>
+    <p><input type="submit" name="adjust" id="adjust_substract" value="-" /> <input type="text" name="amount" id="amount" size="5" pattern="^(0|[1-9]\d*)([,\.]\d{1,2})?"/>  {{product.unit}}
+  <input type="submit" name="adjust" id="adjust_add" value="+" /> </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="hidden" name="product_id" value="{{ product.id }}" />
   </form>

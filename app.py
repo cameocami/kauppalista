@@ -1,3 +1,4 @@
+import secrets
 from flask import Flask
 from flask import abort, flash, redirect, render_template, request, session
 import config
@@ -46,6 +47,12 @@ def current_shopping_list():
         shopping_list = shopping_list_items.get_items(shopping_list_id)
     return shopping_list
 
+def check_csrf():
+    if "csrf_token" not in request.form:
+        abort(403)
+    if request.form["csrf_token"] != session["csrf_token"]:
+        abort(403)
+
 @app.route("/")
 def index():
     all_products = products.get_products()
@@ -74,6 +81,7 @@ def show_product(product_id):
 @app.route("/adjust_amount", methods= ["POST"])
 def adjust_amount():
     require_login()
+    check_csrf()
     product_id = request.form["product_id"]
     product = products.get_product(product_id)
     if not product:
@@ -104,6 +112,7 @@ def new_product():
 @app.route("/create_product", methods=["POST"])
 def create_product():
     require_login()
+    check_csrf()
     user_id = session["user_id"]
     name = request.form["name"]
     validate_name(name)
@@ -140,6 +149,7 @@ def edit_product(product_id):
 @app.route("/update_product", methods=["POST"])
 def update_product():
     require_login()
+    check_csrf()
     product_id = request.form["product_id"]
     product = products.get_product(product_id)
     if not product:
@@ -174,6 +184,7 @@ def remove_product(product_id):
         shopping_list = current_shopping_list()
         return render_template("remove_product.html", product=product, shopping_list=shopping_list)
     if request.method == "POST":
+        check_csrf()
         if "remove" in request.form:
             shopping_list_items.remove_product_from_all(product_id)
             products.remove_product(product_id)
@@ -214,8 +225,7 @@ def create_user():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        shopping_list = current_shopping_list()
-        return render_template("login.html", shopping_list=shopping_list)
+        return render_template("login.html")
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -224,6 +234,7 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
             shopping_list_id = shopping_lists.get_id(user_id)
             if not shopping_list_id:
                 shopping_lists.add("Oma Kauppalista", user_id)
@@ -238,5 +249,8 @@ def logout():
     require_login()
     del session["username"]
     del session["user_id"]
-    del session["shopping_list_id"]
+    if "shopping_list_id" in session:
+        del session["shopping_list_id"]
+    if "csrf_token" in session:
+        del session["csrf_token"]
     return redirect("/")

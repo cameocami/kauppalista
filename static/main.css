@@ -7,25 +7,31 @@ body {
   font-family: sans-serif;
 }
 
-aside {
-  width: 40%;
-  padding-left: 1rem;
-  float: right;
+.header {
+  text-align: center;
+}
+
+nav {
+  text-align: center;
+}
+.main {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
 
 .error {
-    border: 2px solid red; /* Red border for error messages */
+    border: 2px solid red;
     margin: 1em;
     padding: 0.5em;
-    background-color: #ffcccc; /* Light red background */
-    color: #a80000; /* Dark red text for readability */
-    border-radius: 5px; /* Optional: Rounded corners */
+    background-color: #ffcccc;
+    color: #a80000;
+    border-radius: 5px;
 }
 
 .success {
-    border: 2px solid green; /* Green border for success messages */
+    border: 2px solid green;
     margin: 1em;
     padding: 0.5em;
-    background-color: #d4edda; /* Light green background for success */
-    color: #155724; /* Dark green text */
+    background-color: #d4edda;
+    color: #155724;
 }

@@ -8,12 +8,13 @@
 
   <div class="header">
     <h1>Kauppalista-sovellus</h1>
-  </div>
   {% if session.user_id %}
   <div>
     Olet kirjautunut sisään nimellä <a href="/user/{{session.user_id}}"> {{session.username}}</a>
   </div>
+  </div>
   {% endif %}
+
   <div class="nav">
     <nav>
       <p>
@@ -30,20 +31,16 @@
       </p>
     </nav>
   </div>
-  {% if shopping_list%}
-   <aside>
-    <h2>Kauppalista</h2>
-    <ul>
-    {% for item in shopping_list %}
-    <li><a href="/product/{{item.id}}">{{item.name}}</a>,  {{item.amount}}  {{item.unit_display_name}}</li>
-    {% endfor %}
-  </ul>
 
-  </aside>
-  {% endif %}
-  <div class="content">
 
-    <h2>{% block title %}{% endblock %}</h2>
+
+<div class="main">
+
+
+
+  <div>
+  <h2>{% block title %}{% endblock %}</h2>
+
       {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
           {% for category, message in messages %}
@@ -52,7 +49,24 @@
         {% endif %}
       {% endwith %}
 
-    {% block content %}{% endblock %}
+  {% block content %}{% endblock %}
   </div>
- 
+
+  {% if shopping_list%}
+  
+   <div>
+    <h2>Kauppalista</h2>
+
+    <ul>
+    {% for item in shopping_list %}
+    <li><a href="/product/{{item.id}}">{{item.name}}</a>,  {{item.amount}}  {{item.unit_display_name}}</li>
+    {% endfor %}
+  </ul>
+
+  </div>
+{% endif %}
+</div>
+  
+
+</div>
 </html>

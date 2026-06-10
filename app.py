@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import abort, redirect, render_template, request, session
+from flask import abort, flash, redirect, render_template, request, session
 import config
 import products, users, units, departments, shopping_lists, shopping_list_items
 import re
@@ -41,7 +41,7 @@ def validate_amount(amount):
 
 def current_shopping_list():
     shopping_list = None
-    if session:
+    if "shopping_list_id" in session:
         shopping_list_id = session["shopping_list_id"]
         shopping_list = shopping_list_items.get_items(shopping_list_id)
     return shopping_list
@@ -121,6 +121,7 @@ def create_product():
     validate_department(department)
     department_id = departments.get_department_id(department)
     products.add_product(name, price, user_id, unit_id, department_id)
+    flash("Tuote luotu", category='success')
     return redirect("/")
 
 @app.route("/edit_product/<int:product_id>")
@@ -201,18 +202,14 @@ def create_user():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        return "VIRHE: salasanat eivät ole samat"
+        flash("VIRHE:  salasanat eivät ole samat", category='error')
+        return redirect("/register")
     if not users.check_availability(username):
-        return "VIRHE: käyttäjätunnus on jo käytössä"
+        flash("VIRHE:  käyttäjätunnus on jo käytössä", category='error')
+        return redirect("/register")
     users.create_user(username,password1)
-    user_id = users.check_login(username, password1)
-    if user_id:
-        session["user_id"] = user_id
-        session["username"] = username
-        shopping_lists.add("Oma Kauppalista", user_id)
-        shopping_list_id = shopping_lists.get_id(user_id)
-        session["shopping_list_id"] = shopping_list_id
-    return redirect("/")
+    flash("Käyttäjätunnus luotu onnistuneesti", category='success')
+    return redirect("/login")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -233,7 +230,8 @@ def login():
                 shopping_list_id = shopping_lists.get_id(user_id)
             session["shopping_list_id"] = shopping_list_id
             return redirect("/")
-        return "VIRHE: väärä tunnus tai salasana"
+        flash("VIRHE:  väärä tunnus tai salasana", category='error')
+        return redirect("/login")
 
 @app.route("/logout")
 def logout():
@@ -242,5 +240,3 @@ def logout():
     del session["user_id"]
     del session["shopping_list_id"]
     return redirect("/")
-
-

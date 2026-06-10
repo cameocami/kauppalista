@@ -13,4 +13,19 @@ aside {
   float: right;
 }
 
+.error {
+    border: 2px solid red; /* Red border for error messages */
+    margin: 1em;
+    padding: 0.5em;
+    background-color: #ffcccc; /* Light red background */
+    color: #a80000; /* Dark red text for readability */
+    border-radius: 5px; /* Optional: Rounded corners */
+}
 
+.success {
+    border: 2px solid green; /* Green border for success messages */
+    margin: 1em;
+    padding: 0.5em;
+    background-color: #d4edda; /* Light green background for success */
+    color: #155724; /* Dark green text */
+}

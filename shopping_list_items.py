@@ -1,11 +1,13 @@
 import db
 def is_on_list(product_id, shopping_list_id):
-    sql = """ SELECT product_id FROM shopping_list_items WHERE product_id = ? AND shopping_list_id = ?
+    sql = """   SELECT product_id
+                FROM shopping_list_items 
+                WHERE product_id = ? AND shopping_list_id = ?
             """
     result = db.query(sql, [product_id, shopping_list_id])
     return bool(result)
 
-def amount(product_id, shopping_list_id):
+def get_amount(product_id, shopping_list_id):
     sql = "SELECT amount FROM shopping_list_items WHERE product_id = ? AND shopping_list_id = ?"
     result = db.query(sql, [product_id, shopping_list_id])
     return float(result[0][0]) if result else None
@@ -16,22 +18,22 @@ def add_new(shopping_list_id, product_id, amount):
         VALUES (?, ?, ?)"""
     db.execute(sql, [shopping_list_id, product_id, amount])
 
-def add(add_amount, product_id, shopping_list_id):
+def add(amount, product_id, shopping_list_id):
     if is_on_list(product_id, shopping_list_id):
         sql = """   UPDATE shopping_list_items
                     SET amount = amount + ?
                     WHERE product_id = ? AND shopping_list_id = ?"""
-        db.execute(sql, [add_amount, product_id, shopping_list_id])
+        db.execute(sql, [amount, product_id, shopping_list_id])
     else:
-        add_new(shopping_list_id, product_id, add_amount)
+        add_new(shopping_list_id, product_id, amount)
 
-def substract(sub_amount, product_id, shopping_list_id):
+def substract(amount, product_id, shopping_list_id):
     if is_on_list(product_id, shopping_list_id):
         sql = """   UPDATE shopping_list_items
                     SET amount = amount - ?
                     WHERE product_id = ? AND shopping_list_id = ?"""
-        db.execute(sql, [sub_amount, product_id, shopping_list_id])
-        if amount(product_id, shopping_list_id) <= 0:
+        db.execute(sql, [amount, product_id, shopping_list_id])
+        if get_amount(product_id, shopping_list_id) <= 0:
             remove_product(product_id, shopping_list_id)
 
 def get_items(shopping_list_id):

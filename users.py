@@ -25,7 +25,8 @@ def check_availability(username):
                 FROM        users
                 WHERE       username = ?"""
     result = db.query(sql, [username])
-    return False if result else True
+    available = not result
+    return available
 
 def create_user(username, password):
     password_hash = generate_password_hash(password)
@@ -37,10 +38,8 @@ def check_login(username, password):
     result = db.query(sql, [username])
     if not result:
         return None
-
     user_id = result[0]["id"]
     password_hash = result[0]["password_hash"]
     if check_password_hash(password_hash, password):
         return user_id
-    else:
-        return None
+    return None

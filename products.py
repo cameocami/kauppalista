@@ -1,4 +1,5 @@
-import db, shopping_list_items
+import db
+import shopping_list_items
 
 def add_product(name, price, user_id, unit_id, department_id):
     sql = """INSERT INTO products
@@ -7,7 +8,7 @@ def add_product(name, price, user_id, unit_id, department_id):
     db.execute(sql, [name, price, user_id, unit_id, department_id])
 
 def get_products():
-    sql = """   SELECT  products.id, 
+    sql = """   SELECT  products.id,
                         products.name,
                         units.display_name AS unit
                 FROM    products,

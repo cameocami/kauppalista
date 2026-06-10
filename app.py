@@ -1,12 +1,20 @@
 import secrets
-from flask import Flask
-from flask import abort, flash, redirect, render_template, request, session
-import config
-import products, users, units, departments, shopping_lists, shopping_list_items
 import re
 
+from flask import Flask
+from flask import abort, flash, redirect, render_template, request, session
+
+import config
+import products
+import users
+import units
+import departments
+import shopping_lists
+import shopping_list_items
+
+
 app = Flask(__name__)
-app.secret_key = config.secret_key
+app.secret_key = config.SECRET_KEY
 
 def require_login():
     if "user_id" not in session:
@@ -68,7 +76,8 @@ def find_product():
         query = ""
         results = []
     shopping_list = current_shopping_list()
-    return render_template("find_product.html", query=query, results=results, shopping_list=shopping_list)
+    return render_template("find_product.html",query=query,
+                            results=results, shopping_list=shopping_list)
 
 @app.route("/product/<int:product_id>")
 def show_product(product_id):
@@ -107,7 +116,8 @@ def new_product():
     all_units = units.get_all_units()
     all_departments= departments.get_all_departments()
     shopping_list = current_shopping_list()
-    return render_template("new_product.html", units=all_units, departments=all_departments, shopping_list=shopping_list)
+    return render_template("new_product.html", units=all_units,
+                            departments=all_departments, shopping_list=shopping_list)
 
 @app.route("/create_product", methods=["POST"])
 def create_product():
@@ -144,7 +154,9 @@ def edit_product(product_id):
     all_units = units.get_all_units()
     all_departments= departments.get_all_departments()
     shopping_list = current_shopping_list()
-    return render_template("edit_product.html", product=product,  units=all_units, departments=all_departments, shopping_list=shopping_list)
+    return render_template("edit_product.html", product=product,
+                            units=all_units, departments=all_departments,
+                            shopping_list=shopping_list)
 
 @app.route("/update_product", methods=["POST"])
 def update_product():
@@ -177,7 +189,8 @@ def remove_product(product_id):
     require_login()
     product = products.get_product(product_id)
     if not product:
-        abort(404)
+        flash("Tuotetta ei löydy")
+        return redirect("/")
     if product["user_id"] != session["user_id"]:
         abort(403)
     if request.method == "GET":
@@ -189,8 +202,7 @@ def remove_product(product_id):
             shopping_list_items.remove_product_from_all(product_id)
             products.remove_product(product_id)
             return redirect("/")
-        else:
-            return redirect("/product/" + str(product_id))
+        return redirect("/product/" + str(product_id))
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -200,7 +212,8 @@ def show_user(user_id):
     shopping_list_id = shopping_lists.get_id(user_id)
     user_shopping_list = shopping_list_items.get_items(shopping_list_id)
     shopping_list = current_shopping_list()
-    return render_template("show_user.html", user=user, user_shopping_list=user_shopping_list, shopping_list=shopping_list)
+    return render_template("show_user.html", user=user,
+                            user_shopping_list=user_shopping_list, shopping_list=shopping_list)
 
 @app.route("/register")
 def register():

@@ -21,7 +21,7 @@ def require_login():
         abort(403)
 
 def validate_price(price):
-    price_regex = r'^(0|[1-9]\d*)([,\.]\d{1,2})?'
+    price_regex = r"^(0|[1-9]\d*)([,\.]\d{1,2})?"
     if not re.match(price_regex, price):
         abort(403)
     if len(price) > 8:
@@ -42,7 +42,7 @@ def validate_department(department):
         abort(403)
 
 def validate_amount(amount):
-    amount_regex = r'^(0|[1-9]\d*)([,\.]\d{1,2})?'
+    amount_regex = r"^(0|[1-9]\d*)([,\.]\d{1,2})?"
     if not re.match(amount_regex, amount):
         abort(403)
     if len(amount) > 8:
@@ -102,10 +102,10 @@ def adjust_amount():
         amount = 1
     amount = float(amount)
     shopping_list_id = session["shopping_list_id"]
-    adjust = request.form.get('adjust')
-    if adjust == '-':
+    adjust = request.form.get("adjust")
+    if adjust == "-":
         shopping_list_items.substract(amount, product_id, shopping_list_id)
-    elif adjust == '+':
+    elif adjust == "+":
         shopping_list_items.add(amount, product_id, shopping_list_id)
     shopping_list = current_shopping_list()
     return render_template("show_product.html", product=product, shopping_list=shopping_list)
@@ -140,7 +140,7 @@ def create_product():
     validate_department(department)
     department_id = departments.get_department_id(department)
     products.add_product(name, price, user_id, unit_id, department_id)
-    flash("Tuote luotu", category='success')
+    flash("Tuote luotu", category="success")
     return redirect("/")
 
 @app.route("/edit_product/<int:product_id>")
@@ -226,13 +226,13 @@ def create_user():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        flash("VIRHE:  salasanat eivät ole samat", category='error')
+        flash("VIRHE:  salasanat eivät ole samat", category="error")
         return redirect("/register")
     if not users.check_availability(username):
-        flash("VIRHE:  käyttäjätunnus on jo käytössä", category='error')
+        flash("VIRHE:  käyttäjätunnus on jo käytössä", category="error")
         return redirect("/register")
     users.create_user(username,password1)
-    flash("Käyttäjätunnus luotu onnistuneesti", category='success')
+    flash("Käyttäjätunnus luotu onnistuneesti", category="success")
     return redirect("/login")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -254,7 +254,7 @@ def login():
                 shopping_list_id = shopping_lists.get_id(user_id)
             session["shopping_list_id"] = shopping_list_id
             return redirect("/")
-        flash("VIRHE:  väärä tunnus tai salasana", category='error')
+        flash("VIRHE:  väärä tunnus tai salasana", category="error")
         return redirect("/login")
 
 @app.route("/logout")

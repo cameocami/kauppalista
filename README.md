@@ -11,10 +11,10 @@
 * Käyttäjä pystyy muokkaamaan tuotteen osastoa ja yksikköä.
 * Käyttäjällä on kauppalista, johon hän pystyy lisäämään tuotteita. 
 * Käyttäjä pystyy muokkaamaan tuotteen määrää kauppalistallaan.
+* Käyttäjä pystyy poistamaan tuotteita kauppalistaltaan.
 
 ## Sovellukseen tulevat toiminnot
 
-* Käyttäjä pystyy poistamaan tuotteita kauppalistaltaan.
 * Käyttäjä näkee kunkin tuotteen kohdalla kenen kauppalistoilla tuote on.
 * Käyttäjä pystyy tallentamaan ja avaamaan uuden kauppalistan.
 * Käyttäjä näkee sovellukseen lisätyt kauppalistat.

@@ -38,7 +38,7 @@ def substract(amount, product_id, shopping_list_id):
 
 def get_items(shopping_list_id):
     sql = """SELECT products.name AS name,
-                    products.id AS id,
+                    products.id AS product_id,
                     products.price AS price,
                     shopping_list_items.amount AS amount,
                     units.name AS unit,

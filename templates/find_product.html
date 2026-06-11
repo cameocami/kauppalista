@@ -16,6 +16,14 @@
   </p>
   {% if query %}
   <h2>Tulokset</h2>
+
+  <p>
+  {% if results | count == 1 %}
+    Haulla '{{query}}'' löytyi 1 tuote.
+  {% else %}
+    Haulla '{{query}}'' löytyi {{results | count }} tuotetta.
+  {% endif %}
+  </p>
   <ul>
     {% for product in results %}
     <li><a href="/product/{{product.id}}">{{product.name}}</a> ({{product.unit}}) <form action="/adjust_amount" method="post" style="display: inline;">

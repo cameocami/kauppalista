@@ -107,8 +107,7 @@ def adjust_amount():
         shopping_list_items.substract(amount, product_id, shopping_list_id)
     elif adjust == "+":
         shopping_list_items.add(amount, product_id, shopping_list_id)
-    shopping_list = current_shopping_list()
-    return render_template("show_product.html", product=product, shopping_list=shopping_list)
+    return redirect(request.referrer)
 
 @app.route("/new_product")
 def new_product():
@@ -238,10 +237,11 @@ def create_user():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login.html", next_page=request.referrer)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        next_page = request.form["next_page"]
 
         user_id = users.check_login(username, password)
         if user_id:
@@ -253,9 +253,9 @@ def login():
                 shopping_lists.add("Oma Kauppalista", user_id)
                 shopping_list_id = shopping_lists.get_id(user_id)
             session["shopping_list_id"] = shopping_list_id
-            return redirect("/")
+            return redirect(next_page)
         flash("VIRHE:  väärä tunnus tai salasana", category="error")
-        return redirect("/login")
+        return render_template("login.html", next_page=next_page)
 
 @app.route("/logout")
 def logout():

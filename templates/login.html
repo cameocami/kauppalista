@@ -22,6 +22,11 @@
       <input type="password" name="password" id="password" />
     </p>
     <input type="submit" value="Kirjaudu" />
+    {% if next_page %}
+    <input type="hidden" name="next_page" value="{{ next_page }}" />
+    {% else %}
+    <input type="hidden" name="next_page" value="/" />
+    {% endif %}
   </form>
   {% endif %}
 {% endblock %}

@@ -10,6 +10,7 @@
     <li><a href="/product/{{item.id}}">{{item.name}}</a>,  {{item.amount}}  {{item.unit_display_name}}</li>
     {% endfor %}
   </ul>
+  <p>yhteensä {{ total_price }} €</p>
     <a href="/">Takaisin</a>
   </p>
 {% endblock %}

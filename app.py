@@ -210,9 +210,10 @@ def show_user(user_id):
         abort(404)
     shopping_list_id = shopping_lists.get_id(user_id)
     user_shopping_list = shopping_list_items.get_items(shopping_list_id)
+    total_price = shopping_list_items.total_price(shopping_list_id)
     shopping_list = current_shopping_list()
     return render_template("show_user.html", user=user,
-                            user_shopping_list=user_shopping_list, shopping_list=shopping_list)
+                            user_shopping_list=user_shopping_list, shopping_list=shopping_list, total_price=total_price)
 
 @app.route("/register")
 def register():

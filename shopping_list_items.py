@@ -39,7 +39,7 @@ def substract(amount, product_id, shopping_list_id):
 def get_items(shopping_list_id):
     sql = """SELECT products.name AS name,
                     products.id AS product_id,
-                    products.price AS price,
+                    printf("%.2f", products.price) AS price,
                     shopping_list_items.amount AS amount,
                     units.name AS unit,
                     units.display_name AS unit_display_name,
@@ -57,6 +57,13 @@ def get_items(shopping_list_id):
 def remove_product(product_id, shopping_list_id):
     sql = " DELETE FROM shopping_list_items WHERE product_id = ? AND shopping_list_id = ?"
     db.execute(sql, [product_id, shopping_list_id])
+
+def total_price(shopping_list_id):
+    sql = """   SELECT printf("%.2f",SUM(price * amount))
+                FROM shopping_list_items
+                JOIN products ON shopping_list_items.product_id = products.id"""
+    result = db.query(sql)
+    return result[0][0]
 
 def remove_product_from_all(product_id):
     sql = " DELETE FROM shopping_list_items WHERE product_id = ?"

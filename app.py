@@ -1,5 +1,6 @@
 import secrets
 import re
+from decimal import Decimal
 
 from flask import Flask
 from flask import abort, flash, redirect, render_template, request, session
@@ -47,6 +48,11 @@ def validate_amount(amount):
         abort(403)
     if len(amount) > 8:
         abort(403)
+
+def format_amount(amount):
+    string = str(amount)
+    string.replace(",",".")
+    return Decimal(string)
 
 def current_shopping_list():
     shopping_list = None
@@ -98,9 +104,9 @@ def adjust_amount():
     amount = request.form["amount"]
     if amount:
         validate_amount(amount)
+        amount = format_amount(amount)
     else:
         amount = 1
-    amount = float(amount)
     shopping_list_id = session["shopping_list_id"]
     adjust = request.form.get("adjust")
     if adjust == "-":

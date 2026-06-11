@@ -25,7 +25,7 @@ CREATE TABLE units (
 CREATE TABLE products (
     id INTEGER PRIMARY KEY,
     name TEXT,
-    price FLOAT,
+    price DECIMAL(10,2),
     user_id INTEGER REFERENCES users,
     unit_id INTEGER REFERENCES units,
     department_id INTEGER REFERENCES departments
@@ -41,5 +41,5 @@ CREATE TABLE shopping_list_items (
     id INTEGER PRIMARY KEY,
     shopping_list_id INTEGER REFERENCES shopping_lists,
     product_id INTEGER REFERENCES products,
-    amount FLOAT NOT NULL
+    amount DECIMAL(10,2) NOT NULL
 );

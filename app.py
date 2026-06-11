@@ -275,7 +275,10 @@ def create_user():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html", next_page=request.referrer)
+        next_page = request.referrer
+        if "/register" in next_page:
+            next_page = "/"
+        return render_template("login.html", next_page=next_page)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]

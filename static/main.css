@@ -14,9 +14,13 @@ body {
 nav {
   text-align: center;
 }
+
 .main {
   display: grid;
   grid-template-columns: 50% 50%;
+  text-align: left;
+  margin: 5em;
+  margin-top: 2em;
 }
 
 .error {

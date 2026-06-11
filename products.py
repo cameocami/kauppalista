@@ -45,8 +45,9 @@ def remove_product(product_id):
     db.execute(sql, [product_id])
 
 def find_products(query):
-    sql = """SELECT id, name
+    sql = """SELECT products.id AS id, products.name AS name, units.display_name AS unit
             FROM products
-            WHERE name LIKE ?
+            JOIN units ON units.id = products.unit_id
+            WHERE products.name LIKE ?
             ORDER BY id DESC"""
     return db.query(sql, ["%" + query + "%"])

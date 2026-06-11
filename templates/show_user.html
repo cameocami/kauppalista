@@ -7,7 +7,7 @@
   <p>yhteensä {{ user_shopping_list | count }} tuotetta:</p>
     <ul>
     {% for item in user_shopping_list %}
-    <li><a href="/product/{{item.id}}">{{item.name}}</a>,  {{item.amount}}  {{item.unit_display_name}}</li>
+    <li><a href="/product/{{item.product_id}}">{{item.name}}</a>,  {{item.amount}}  {{item.unit_display_name}}</li>
     {% endfor %}
   </ul>
   <p>yhteensä {{ total_price }} €</p>

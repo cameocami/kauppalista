@@ -32,6 +32,41 @@ def validate_name(name):
     if len(name) > 50 or not name:
         abort(403)
 
+def validate_username(username):
+    errors = []
+    if not users.check_availability(username):
+        errors.append("VIRHE:  käyttäjätunnus on jo käytössä")
+    if len(username) < 5:
+        errors.append("""VIRHE:  käyttäjätunnus on liian lyhyt.
+                        Käyttäjätunnuksen tulee olla vähintään 5 merkkiä.""")
+    if len(username) > 30:
+        errors.append("""VIRHE:  käyttäjätunnus on liian pitkä.
+                        Käyttäjätunnuksen tulee olla enintään 30 merkkiä.""")
+    pattern = r'^[\w-]+'
+    if not re.match(pattern, username):
+        errors.append("""VIRHE:  käyttäjätunnus saa sisältää vain kirjaimia,
+                        numeroita, alaviivoja (_) tai yhdysviivoja (-).""")
+    if errors:
+        for error in errors:
+            flash(error, category="error")
+        return False
+    return True
+
+def validate_passwords(password1, password2):
+    errors = []
+    if password1 != password2:
+        errors.append("VIRHE: salasanat eivät ole samat")
+    if len(password1) < 8:
+        errors.append("""VIRHE: Salasana on liian lyhyt.
+                        Salasanan pituuden tulee olla vähintään 8 merkkiä.""")
+    if password1.isalpha():
+        errors.append("VIRHE: Salasanan tulee sisältää numeroita tai erikoismerkkejä.")
+    if errors:
+        for error in errors:
+            flash(error, category="error")
+        return False
+    return True
+
 def validate_unit(unit):
     all_units = [unit["name"] for unit in units.get_all_units()]
     if unit not in all_units:
@@ -231,14 +266,10 @@ def create_user():
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
-    if password1 != password2:
-        flash("VIRHE:  salasanat eivät ole samat", category="error")
-        return redirect("/register")
-    if not users.check_availability(username):
-        flash("VIRHE:  käyttäjätunnus on jo käytössä", category="error")
+    if not validate_username(username) or not validate_passwords(password1, password2):
         return redirect("/register")
     users.create_user(username,password1)
-    flash("Käyttäjätunnus luotu onnistuneesti", category="success")
+    flash(f"Käyttäjätunnus {username} luotu onnistuneesti", category="success")
     return redirect("/login")
 
 @app.route("/login", methods=["GET", "POST"])

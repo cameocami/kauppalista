@@ -40,7 +40,7 @@ def get_items(shopping_list_id):
     sql = """SELECT products.name AS name,
                     products.id AS product_id,
                     printf("%.2f", products.price) AS price,
-                    shopping_list_items.amount AS amount,
+                    printf("%g", round(shopping_list_items.amount, 2)) AS amount,
                     units.name AS unit,
                     units.display_name AS unit_display_name,
                     departments.name AS department,

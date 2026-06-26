@@ -30,7 +30,11 @@ Osasto: {{product.department}}
 Luonut: <a href="/user/{{product.user_id}}"> {{product.username}} </a>
 </p>
 <p>
+  {% if product.average_rating %}
 Arviot: {{product.average_rating}} / 5
+  {% else %}
+  Tätä tuotetta ei ole vielä arvosteltu.
+  {% endif %}
 </p>
 <form action="/rate_product" method="post">
 <p><label for="rating">Oma arvio:</label><select name="rating" id="rating">

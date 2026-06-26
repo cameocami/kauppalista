@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS units;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS shopping_lists;
 DROP TABLE IF EXISTS shopping_list_items;
+DROP TABLE IF EXISTS product_ratings;
 
 CREATE TABLE users (
     id INTEGER PRIMARY KEY,
@@ -26,7 +27,7 @@ CREATE TABLE products (
     id INTEGER PRIMARY KEY,
     name TEXT,
     price DECIMAL(10,2),
-    user_id INTEGER REFERENCES users,
+    user_id INTEGER REFERENCES users ON DELETE CASCADE,
     unit_id INTEGER REFERENCES units,
     department_id INTEGER REFERENCES departments
 );
@@ -39,14 +40,14 @@ CREATE TABLE shopping_lists (
 
 CREATE TABLE shopping_list_items (
     id INTEGER PRIMARY KEY,
-    shopping_list_id INTEGER REFERENCES shopping_lists,
-    product_id INTEGER REFERENCES products,
+    shopping_list_id INTEGER REFERENCES shopping_lists ON DELETE CASCADE,
+    product_id INTEGER REFERENCES products ON DELETE CASCADE,
     amount DECIMAL(10,2) NOT NULL
 );
 
-CREATE TABLE product_ratings(
+CREATE TABLE product_ratings (
     id INTEGER PRIMARY KEY,
-    product_id INTEGER REFERENCES products,
-    user_id INTEGER REFERENCES users,
+    product_id INTEGER REFERENCES products ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users ON DELETE CASCADE,
     rating INTEGER
 );

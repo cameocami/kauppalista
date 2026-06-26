@@ -128,7 +128,11 @@ def find_product():
 
 @app.route("/product/<int:product_id>")
 def show_product(product_id):
-    product = products.get_product(product_id)
+    if session:
+        user_id = session["user_id"]
+        product = products.get_product(product_id,user_id)
+    else:
+        product = products.get_product(product_id)
     if not product:
         abort(404)
     shopping_list = current_shopping_list()

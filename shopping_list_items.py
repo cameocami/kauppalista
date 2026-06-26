@@ -61,6 +61,7 @@ def remove_product(product_id, shopping_list_id):
 def total_price(shopping_list_id):
     sql = """   SELECT printf("%.2f",SUM(price * amount))
                 FROM shopping_list_items
-                JOIN products ON shopping_list_items.product_id = products.id"""
-    result = db.query(sql)
+                JOIN products ON shopping_list_items.product_id = products.id
+                WHERE shopping_list_id = ?"""
+    result = db.query(sql, [shopping_list_id])
     return result[0][0]

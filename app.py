@@ -272,10 +272,9 @@ def remove_product(product_id):
     if request.method == "POST":
         check_csrf()
         if "remove" in request.form:
-            shopping_list_items.remove_product_from_all(product_id)
             products.remove_product(product_id)
             return redirect("/")
-        return redirect("/product/" + str(product_id))
+    return redirect("/product/" + str(product_id))
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -287,7 +286,9 @@ def show_user(user_id):
     total_price = shopping_list_items.total_price(shopping_list_id)
     shopping_list = current_shopping_list()
     return render_template("show_user.html", user=user,
-                            user_shopping_list=user_shopping_list, shopping_list=shopping_list, total_price=total_price)
+                            user_shopping_list=user_shopping_list,
+                            shopping_list=shopping_list,
+                            total_price=total_price)
 
 @app.route("/register")
 def register():
@@ -311,12 +312,10 @@ def login():
         next_page = request.referrer
         if "/register" in next_page:
             next_page = "/"
-        return render_template("login.html", next_page=next_page)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         next_page = request.form["next_page"]
-
         user_id = users.check_login(username, password)
         if user_id:
             session["user_id"] = user_id
@@ -329,7 +328,7 @@ def login():
             session["shopping_list_id"] = shopping_list_id
             return redirect(next_page)
         flash("VIRHE:  väärä tunnus tai salasana", category="error")
-        return render_template("login.html", next_page=next_page)
+    return render_template("login.html", next_page=next_page)
 
 @app.route("/logout")
 def logout():

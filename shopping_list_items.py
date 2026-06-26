@@ -64,4 +64,3 @@ def total_price(shopping_list_id):
                 JOIN products ON shopping_list_items.product_id = products.id"""
     result = db.query(sql)
     return result[0][0]
-

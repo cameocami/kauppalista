@@ -1,6 +1,4 @@
 import db
-import shopping_list_items
-import product_ratings
 
 def add_product(name, price, user_id, unit_id, department_id):
     sql = """INSERT INTO products

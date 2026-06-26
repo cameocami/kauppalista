@@ -43,3 +43,10 @@ CREATE TABLE shopping_list_items (
     product_id INTEGER REFERENCES products,
     amount DECIMAL(10,2) NOT NULL
 );
+
+CREATE TABLE product_ratings(
+    id INTEGER PRIMARY KEY,
+    product_id INTEGER REFERENCES products,
+    user_id INTEGER REFERENCES users,
+    rating INTEGER
+);

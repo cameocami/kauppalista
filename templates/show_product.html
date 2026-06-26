@@ -8,8 +8,21 @@
   <p>
     <a href="/edit_product/{{ product.id }}">Muokkaa</a> | <a href="/remove_product/{{ product.id }}">Poista</a>
   </p>
-  {% endif %}
+    {% endif %}
   <p>
+
+
+  <form action="/rate_product" method="post">
+    <p><label for="rating">Oma arvio:</label><select name="rating" id="rating">
+      {% for number in range(5,0,-1) %}
+      <option value="{{number}}">{{number}}</option>
+      {% endfor %}
+    </select>
+    <input type="hidden" name="product_id" value="{{ product.id }}" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Arvioi" />
+  </form>
+    </p>
   <p>
     Hinta: {{product.price}} € / {{product.unit}}
   </p>

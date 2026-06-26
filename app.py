@@ -12,6 +12,7 @@ import units
 import departments
 import shopping_lists
 import shopping_list_items
+import product_ratings
 
 
 app = Flask(__name__)
@@ -77,6 +78,11 @@ def validate_department(department):
     if department not in all_departments:
         abort(403)
 
+def validate_rating(rating):
+    ratings = [str(number) for number in range(1,6)]
+    if rating not in ratings:
+        abort(403)
+
 def validate_amount(amount):
     amount_regex = r"^(0|[1-9]\d*)([,\.]\d{1,2})?"
     if not re.match(amount_regex, amount):
@@ -127,6 +133,22 @@ def show_product(product_id):
         abort(404)
     shopping_list = current_shopping_list()
     return render_template("show_product.html", product=product, shopping_list=shopping_list)
+
+@app.route("/rate_product", methods= ["POST"])
+def rate_product():
+    require_login()
+    user_id = session["user_id"]
+    check_csrf()
+    product_id = request.form["product_id"]
+    product = products.get_product(product_id)
+    if not product:
+        abort(404)
+    rating = request.form["rating"]
+    validate_rating(rating)
+    rating = int(rating)
+    product_ratings.rate(product_id, user_id, rating)
+    return redirect(request.referrer)
+
 
 @app.route("/adjust_amount", methods= ["POST"])
 def adjust_amount():

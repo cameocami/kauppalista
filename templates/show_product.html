@@ -4,44 +4,52 @@
 
 {% block content %}
 
-    {% if session.user_id == product.user_id%}
-  <p>
-    <a href="/edit_product/{{ product.id }}">Muokkaa</a> | <a href="/remove_product/{{ product.id }}">Poista</a>
-  </p>
-    {% endif %}
-  <p>
+{% if session.user_id == product.user_id%}
+<p>
+<a href="/edit_product/{{ product.id }}">Muokkaa</a> | <a href="/remove_product/{{ product.id }}">Poista</a>
+</p>
+{% endif %}
+<p>
+</p>
+{% if session.shopping_list_id%}
+<form action="/adjust_amount" method="post">
+<p><input type="submit" name="adjust" id="adjust_substract" value="-" /> <input type="text" name="amount" id="amount" size="5" pattern="^(0|[1-9]\d*)([,\.]\d{1,2})?"/>  {{product.unit}}
+<input type="submit" name="adjust" id="adjust_add" value="+" /> </p>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+<input type="hidden" name="product_id" value="{{ product.id }}" />
+</form>
+{% endif %}
+<p>
+<p>
+Hinta: {{product.price}} € / {{product.unit}}
+</p>
+<p>
+Osasto: {{product.department}}
+</p>
+<p>
+Luonut: <a href="/user/{{product.user_id}}"> {{product.username}} </a>
+</p>
+<p>
+Arviot: {{product.average_rating}} / 5
+</p>
+<form action="/rate_product" method="post">
+<p><label for="rating">Oma arvio:</label><select name="rating" id="rating">
+{% if not product.user_rating %}
+<option value="" selected >(valitse)</option>
+{% endif %}
+{% for number in range(1,6) %}
+{% if product.user_rating == number %}
+<option value="{{number}}" selected >{{number}}</option>
+{% else %}
+<option value="{{number}}" >{{number}}</option>
+{% endif %}
+{% endfor %}
+</select>
+<input type="hidden" name="product_id" value="{{ product.id }}" />
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+<input type="submit" value="Arvioi" />
+</form>
 
-
-  <form action="/rate_product" method="post">
-    <p><label for="rating">Oma arvio:</label><select name="rating" id="rating">
-      {% for number in range(5,0,-1) %}
-      <option value="{{number}}">{{number}}</option>
-      {% endfor %}
-    </select>
-    <input type="hidden" name="product_id" value="{{ product.id }}" />
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" value="Arvioi" />
-  </form>
-    </p>
-  <p>
-    Hinta: {{product.price}} € / {{product.unit}}
-  </p>
-  <p>
-    Osasto: {{product.department}}
-  </p>
-   <p>
-    Luonut: <a href="/user/{{product.user_id}}"> {{product.username}} </a>
-  </p>
-  {% if session.shopping_list_id%}
-  <form action="/adjust_amount" method="post">
-    <p><input type="submit" name="adjust" id="adjust_substract" value="-" /> <input type="text" name="amount" id="amount" size="5" pattern="^(0|[1-9]\d*)([,\.]\d{1,2})?"/>  {{product.unit}}
-  <input type="submit" name="adjust" id="adjust_add" value="+" /> </p>
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type="hidden" name="product_id" value="{{ product.id }}" />
-  </form>
-    {% endif %}
-
-  <p>
-    <a href="/">Takaisin</a>
-  </p>
+<a href="/">Takaisin</a>
+</p>
 {% endblock %}

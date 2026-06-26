@@ -31,6 +31,20 @@
       {% endfor %}
     </select>
     </p>
+
+    <p>
+    <label for="rating">Oma arvio:</label><select name="rating" id="rating">
+    {% if not product.user_rating %}
+    <option value="" selected >(valitse)</option>
+    {% endif %}
+    {% for number in range(1,6) %}
+    {% if product.user_rating == number %}
+    <option value="{{number}}" selected >{{number}}</option>
+    {% else %}
+    <option value="{{number}}" >{{number}}</option>
+    {% endif %}
+    {% endfor %}
+    </select>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="hidden" name="product_id" value="{{ product.id }}" />
     <input type="submit" value="Päivitä" />

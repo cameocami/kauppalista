@@ -215,7 +215,8 @@ def create_product():
 @app.route("/edit_product/<int:product_id>")
 def edit_product(product_id):
     require_login()
-    product = products.get_product(product_id)
+    user_id = session["user_id"]
+    product = products.get_product(product_id, user_id)
     if not product:
         abort(404)
     if product["user_id"] != session["user_id"]:
@@ -231,11 +232,12 @@ def edit_product(product_id):
 def update_product():
     require_login()
     check_csrf()
+    user_id = session["user_id"]
     product_id = request.form["product_id"]
     product = products.get_product(product_id)
     if not product:
         abort(404)
-    if product["user_id"] != session["user_id"]:
+    if product["user_id"] != user_id:
         abort(403)
     name = request.form["name"]
     validate_name(name)
@@ -251,6 +253,10 @@ def update_product():
     validate_department(department)
     department_id = departments.get_department_id(department)
     products.update_product(product_id, name, price, unit_id, department_id)
+    rating = request.form["rating"]
+    if rating:
+        product_ratings.rate(product_id, user_id, rating)
+    flash("Tuote päivitetty", category="success")
     return redirect("/product/" +str(product_id))
 
 @app.route("/remove_product/<int:product_id>", methods=["GET", "POST"])

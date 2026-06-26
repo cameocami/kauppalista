@@ -7,6 +7,7 @@ def add_product(name, price, user_id, unit_id, department_id):
         (name, price, user_id, unit_id, department_id)
         VALUES (?, ?, ?, ?, ?)"""
     db.execute(sql, [name, price, user_id, unit_id, department_id])
+    return db.last_insert_id()
 
 def get_products():
     sql = """   SELECT  products.id,
@@ -33,7 +34,7 @@ def get_product(product_id, user_id=None):
                 LEFT JOIN   units ON units.id = products.unit_id
                 LEFT JOIN   departments ON departments.id = products.department_id
                 LEFT JOIN   product_ratings AS all_ratings ON products.id = all_ratings.product_id
-                LEFT JOIN   product_ratings AS user_ratings ON products.id = user_ratings.product_id AND user_ratings.user_id = ? 
+                LEFT JOIN   product_ratings AS user_ratings ON products.id = user_ratings.product_id AND user_ratings.user_id = ?
                 WHERE       products.id = ?
                 GROUP BY    products.id, users.id, units.display_name, departments.display_name"""
     result = db.query(sql, [user_id, product_id])

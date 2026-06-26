@@ -205,7 +205,10 @@ def create_product():
         department = "other"
     validate_department(department)
     department_id = departments.get_department_id(department)
-    products.add_product(name, price, user_id, unit_id, department_id)
+    product_id = products.add_product(name, price, user_id, unit_id, department_id)
+    rating = request.form["rating"]
+    if rating:
+        product_ratings.rate(product_id, user_id, rating)
     flash("Tuote luotu", category="success")
     return redirect("/")
 

@@ -21,7 +21,7 @@ def add_new(shopping_list_id, product_id, amount):
 def add(amount, product_id, shopping_list_id):
     if is_on_list(product_id, shopping_list_id):
         sql = """   UPDATE shopping_list_items
-                    SET amount = amount + ?
+                    SET amount = amount + CAST(? AS DECIMAL(10,2))
                     WHERE product_id = ? AND shopping_list_id = ?"""
         db.execute(sql, [amount, product_id, shopping_list_id])
     else:
@@ -30,9 +30,9 @@ def add(amount, product_id, shopping_list_id):
 def substract(amount, product_id, shopping_list_id):
     if is_on_list(product_id, shopping_list_id):
         sql = """   UPDATE shopping_list_items
-                    SET amount = amount - ?
+                    SET amount = amount - CAST(? AS DECIMAL(10,2))
                     WHERE product_id = ? AND shopping_list_id = ?"""
-        db.execute(sql, [amount, product_id, shopping_list_id])
+        db.execute(sql, [str(amount), product_id, shopping_list_id])
         if get_amount(product_id, shopping_list_id) <= 0:
             remove_product(product_id, shopping_list_id)
 

@@ -1,6 +1,5 @@
 import secrets
 import re
-from decimal import Decimal
 
 from flask import Flask
 from flask import abort, flash, redirect, render_template, request, session
@@ -92,8 +91,7 @@ def validate_amount(amount):
 
 def format_amount(amount):
     string = str(amount)
-    string.replace(",",".")
-    return Decimal(string)
+    return string.replace(",",".")
 
 def current_shopping_list():
     shopping_list = None

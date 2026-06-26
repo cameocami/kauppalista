@@ -65,6 +65,3 @@ def total_price(shopping_list_id):
     result = db.query(sql)
     return result[0][0]
 
-def remove_product_from_all(product_id):
-    sql = " DELETE FROM shopping_list_items WHERE product_id = ?"
-    db.execute(sql, [product_id])

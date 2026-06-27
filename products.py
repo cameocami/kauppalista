@@ -7,15 +7,18 @@ def add_product(name, price, user_id, unit_id, department_id):
     db.execute(sql, [name, price, user_id, unit_id, department_id])
     return db.last_insert_id()
 
-def get_products():
+def get_products(page, page_size):
     sql = """   SELECT  products.id,
                         products.name,
                         units.display_name AS unit
                 FROM    products,
                         units
                 WHERE   products.unit_id = units.id
-                ORDER BY products.id DESC"""
-    return db.query(sql)
+                ORDER BY products.id DESC
+                LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [limit, offset])
 
 def get_product(product_id, user_id=None):
     sql = """   SELECT      products.id,
@@ -55,3 +58,8 @@ def find_products(query):
             WHERE products.name LIKE ?
             ORDER BY id DESC"""
     return db.query(sql, ["%" + query + "%"])
+
+def product_count():
+    sql = "SELECT COUNT(*) FROM products"
+    result = db.query(sql)
+    return result[0][0] if result else None

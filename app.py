@@ -1,6 +1,7 @@
 import secrets
 import re
 import time
+import math
 
 from flask import Flask
 from flask import abort, flash, redirect, render_template, request, session, g
@@ -108,10 +109,25 @@ def check_csrf():
         abort(403)
 
 @app.route("/")
-def index():
-    all_products = products.get_products()
+@app.route("/<int:page>")
+def index(page=1):
+    page_size = 20
+    product_total = products.product_count()
+    page_count = math.ceil(product_total / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect("/" + str(page_count))
+
+    page_products = products.get_products(page, page_size)
     shopping_list = current_shopping_list()
-    return render_template("index.html", products=all_products, shopping_list=shopping_list)
+    return render_template("index.html",
+                            page=page,
+                            page_count=page_count,
+                            products=page_products,
+                            shopping_list=shopping_list)
 
 @app.route("/find_product")
 def find_product():

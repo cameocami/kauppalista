@@ -30,19 +30,19 @@ Osasto: {{product.department}}
 Luonut: <a href="/user/{{product.user_id}}"> {{product.username}} </a>
 </p>
 <p>
-  {% if product.average_rating %}
-Arviot: {{product.average_rating}} / 5
+  {% if avg_rating %}
+Arviot: {{avg_rating}} / 5
   {% else %}
-  Tätä tuotetta ei ole vielä arvosteltu.
+  Tätä tuotetta ei ole vielä kertaakaan arvosteltu.
   {% endif %}
 </p>
 <form action="/rate_product" method="post">
 <p><label for="rating">Oma arvio:</label><select name="rating" id="rating">
-{% if not product.user_rating %}
+{% if not user_rating %}
 <option value="" selected >(valitse)</option>
 {% endif %}
 {% for number in range(1,6) %}
-{% if product.user_rating == number %}
+{% if user_rating == number %}
 <option value="{{number}}" selected >{{number}}</option>
 {% else %}
 <option value="{{number}}" >{{number}}</option>

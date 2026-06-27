@@ -22,3 +22,11 @@ def get_user_rating(product_id, user_id):
             """
     result = db.query(sql, [product_id, user_id])
     return result[0] if result else None
+
+def get_avg_rating(product_id):
+    sql = """ SELECT AVG(rating)
+            FROM product_ratings
+            WHERE product_id = ?
+            """
+    result = db.query(sql, [product_id])
+    return result[0][0] if result else None

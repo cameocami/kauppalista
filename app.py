@@ -153,13 +153,18 @@ def find_product():
 @app.route("/product/<int:product_id>")
 def show_product(product_id):
     validate_product(product_id)
+    product = products.get_product(product_id)
+    avg_rating = product_ratings.get_avg_rating(product_id)
+    user_rating = None
     if session:
         user_id = session["user_id"]
-        product = products.get_product(product_id,user_id)
-    else:
-        product = products.get_product(product_id)
+        user_rating = product_ratings.get_user_rating(product_id,user_id)
     shopping_list = current_shopping_list()
-    return render_template("show_product.html", product=product, shopping_list=shopping_list)
+    return render_template("show_product.html",
+                            product=product,
+                            avg_rating=avg_rating,
+                            user_rating=user_rating,
+                            shopping_list=shopping_list)
 
 @app.route("/rate_product", methods= ["POST"])
 def rate_product():
@@ -237,11 +242,14 @@ def edit_product(product_id):
     validate_product(product_id)
     user_id = session["user_id"]
     validate_product_owner(product_id, user_id)
-    product = products.get_product(product_id, user_id)
+    product = products.get_product(product_id)
+    user_rating = product_ratings.get_user_rating(product_id,user_id)
     all_units = units.get_all_units()
     all_departments= departments.get_all_departments()
     shopping_list = current_shopping_list()
-    return render_template("edit_product.html", product=product,
+    return render_template("edit_product.html",
+                            product=product,
+                            user_rating=user_rating,
                             units=all_units, departments=all_departments,
                             shopping_list=shopping_list)
 
@@ -278,6 +286,7 @@ def remove_product(product_id):
     require_login()
     validate_product(product_id)
     validate_product_owner(product_id, session["user_id"])
+    product = products.get_product(product_id)
     if request.method == "GET":
         shopping_list = current_shopping_list()
         return render_template("remove_product.html", product=product, shopping_list=shopping_list)

@@ -95,6 +95,10 @@ def format_amount(amount):
     string = str(amount)
     return string.replace(",",".")
 
+def validate_product(product_id):
+    if not products.exists(product_id):
+        abort(404)
+
 def current_shopping_list():
     shopping_list = None
     if "shopping_list_id" in session:
@@ -143,13 +147,12 @@ def find_product():
 
 @app.route("/product/<int:product_id>")
 def show_product(product_id):
+    validate_product(product_id)
     if session:
         user_id = session["user_id"]
         product = products.get_product(product_id,user_id)
     else:
         product = products.get_product(product_id)
-    if not product:
-        abort(404)
     shopping_list = current_shopping_list()
     return render_template("show_product.html", product=product, shopping_list=shopping_list)
 
@@ -159,9 +162,7 @@ def rate_product():
     user_id = session["user_id"]
     check_csrf()
     product_id = request.form["product_id"]
-    product = products.get_product(product_id)
-    if not product:
-        abort(404)
+    validate_product(product_id)
     rating = request.form["rating"]
     validate_rating(rating)
     rating = int(rating)
@@ -174,9 +175,7 @@ def adjust_amount():
     require_login()
     check_csrf()
     product_id = request.form["product_id"]
-    product = products.get_product(product_id)
-    if not product:
-        abort(404)
+    validate_product(product_id)
     amount = request.form["amount"]
     if amount:
         validate_amount(amount)
@@ -230,10 +229,9 @@ def create_product():
 @app.route("/edit_product/<int:product_id>")
 def edit_product(product_id):
     require_login()
+    validate_product(product_id)
     user_id = session["user_id"]
     product = products.get_product(product_id, user_id)
-    if not product:
-        abort(404)
     if product["user_id"] != session["user_id"]:
         abort(403)
     all_units = units.get_all_units()
@@ -249,9 +247,8 @@ def update_product():
     check_csrf()
     user_id = session["user_id"]
     product_id = request.form["product_id"]
+    validate_product(product_id)
     product = products.get_product(product_id)
-    if not product:
-        abort(404)
     if product["user_id"] != user_id:
         abort(403)
     name = request.form["name"]

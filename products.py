@@ -63,3 +63,8 @@ def product_count():
     sql = "SELECT COUNT(*) FROM products"
     result = db.query(sql)
     return result[0][0] if result else None
+
+def exists(product_id):
+    sql = "SELECT id FROM products WHERE id = ?"
+    result = db.query(sql, [product_id])
+    return bool(result)

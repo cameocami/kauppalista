@@ -7,7 +7,7 @@
   <form action="/find_product" method="get">
     <p>
       <label for="query">Hakusana:</label><br />
-      <input type="text" name="query"s id="query" value="{{query}}"/>
+      <input type="text" name="query" id="query" value="{{query}}"/>
     </p>
     <input type="submit" value="Etsi" />
   </form>
@@ -18,10 +18,10 @@
   <h2>Tulokset</h2>
 
   <p>
-  {% if results | count == 1 %}
+  {% if result_count == 1 %}
     Haulla '{{query}}'' löytyi 1 tuote.
   {% else %}
-    Haulla '{{query}}'' löytyi {{results | count }} tuotetta.
+    Haulla '{{query}}'' löytyi {{result_count }} tuotetta.
   {% endif %}
   </p>
   <ul>
@@ -34,6 +34,11 @@
   </form></li>
     {% endfor %}
   </ul>
+    <p>
+    <a href="/find_product/{{ page - 1 }}?query={{query}}">&lt;&lt;</a>
+    Sivu {{ page }}/{{ page_count }}
+    <a href="/find_product/{{ page + 1 }}?query={{query}}">&gt;&gt;</a>
+  </p>
   {%endif%}
 
 {% endblock %}

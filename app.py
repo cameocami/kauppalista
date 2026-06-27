@@ -19,6 +19,7 @@ import product_ratings
 app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
 
+PAGE_SIZE = 20
 def require_login():
     if "user_id" not in session:
         abort(403)
@@ -120,7 +121,7 @@ def check_csrf():
 @app.route("/")
 @app.route("/<int:page>")
 def index(page=1):
-    page_size = 20
+    page_size = PAGE_SIZE
     product_total = products.product_count()
     page_count = math.ceil(product_total / page_size)
     page_count = max(page_count, 1)
@@ -139,16 +140,35 @@ def index(page=1):
                             shopping_list=shopping_list)
 
 @app.route("/find_product")
-def find_product():
+@app.route("/find_product/<int:page>")
+def find_product(page=1):
     query = request.args.get("query")
     if query:
-        results = products.find_products(query)
+        result_count = products.find_product_count(query)
     else:
+        result_count = 0
         query = ""
+    page_size = PAGE_SIZE
+    page_count = math.ceil(result_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect(f"/find_product?query={query}")
+    if page > page_count:
+        return redirect(f"/find_product/{str(page_count)}?query={query}")
+
+    if query:
+        results = products.find_products(query, page, page_size)
+    else:
         results = []
     shopping_list = current_shopping_list()
-    return render_template("find_product.html",query=query,
-                            results=results, shopping_list=shopping_list)
+    return render_template("find_product.html",
+                            query=query,
+                            results=results,
+                            result_count=result_count,
+                            page=page,
+                            page_count=page_count,
+                            shopping_list=shopping_list)
 
 @app.route("/product/<int:product_id>")
 def show_product(product_id):

@@ -46,13 +46,21 @@ def remove_product(product_id):
     sql = "DELETE FROM products WHERE id = ?"
     db.execute(sql, [product_id])
 
-def find_products(query):
+def find_products(query,page, page_size):
     sql = """SELECT products.id AS id, products.name AS name, units.display_name AS unit
             FROM products
             JOIN units ON units.id = products.unit_id
             WHERE products.name LIKE ?
-            ORDER BY id DESC"""
-    return db.query(sql, ["%" + query + "%"])
+            ORDER BY id DESC
+            LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, ["%" + query + "%", limit, offset])
+
+def find_product_count(query):
+    sql = "SELECT COUNT(*) FROM products WHERE products.name LIKE ?"
+    result = db.query(sql, ["%" + query + "%"])
+    return result[0][0] if result else None
 
 def product_count():
     sql = "SELECT COUNT(*) FROM products"

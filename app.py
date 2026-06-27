@@ -1,8 +1,9 @@
 import secrets
 import re
+import time
 
 from flask import Flask
-from flask import abort, flash, redirect, render_template, request, session
+from flask import abort, flash, redirect, render_template, request, session, g
 
 import config
 import products
@@ -340,3 +341,13 @@ def logout():
     if "csrf_token" in session:
         del session["csrf_token"]
     return redirect("/")
+
+@app.before_request
+def before_request():
+    g.start_time = time.time()
+
+@app.after_request
+def after_request(response):
+    elapsed_time = round(time.time() - g.start_time, 2)
+    print("elapsed time:", elapsed_time, "s")
+    return response

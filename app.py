@@ -99,6 +99,11 @@ def validate_product(product_id):
     if not products.exists(product_id):
         abort(404)
 
+def validate_product_owner(product_id, user_id):
+    owner_id = products.get_owner(product_id)
+    if str(owner_id) != str(user_id):
+        abort(403)
+
 def current_shopping_list():
     shopping_list = None
     if "shopping_list_id" in session:
@@ -231,9 +236,8 @@ def edit_product(product_id):
     require_login()
     validate_product(product_id)
     user_id = session["user_id"]
+    validate_product_owner(product_id, user_id)
     product = products.get_product(product_id, user_id)
-    if product["user_id"] != session["user_id"]:
-        abort(403)
     all_units = units.get_all_units()
     all_departments= departments.get_all_departments()
     shopping_list = current_shopping_list()
@@ -248,9 +252,7 @@ def update_product():
     user_id = session["user_id"]
     product_id = request.form["product_id"]
     validate_product(product_id)
-    product = products.get_product(product_id)
-    if product["user_id"] != user_id:
-        abort(403)
+    validate_product_owner(product_id,user_id)
     name = request.form["name"]
     validate_name(name)
     name = name.capitalize()
@@ -274,12 +276,8 @@ def update_product():
 @app.route("/remove_product/<int:product_id>", methods=["GET", "POST"])
 def remove_product(product_id):
     require_login()
-    product = products.get_product(product_id)
-    if not product:
-        flash("Tuotetta ei löydy")
-        return redirect("/")
-    if product["user_id"] != session["user_id"]:
-        abort(403)
+    validate_product(product_id)
+    validate_product_owner(product_id, session["user_id"])
     if request.method == "GET":
         shopping_list = current_shopping_list()
         return render_template("remove_product.html", product=product, shopping_list=shopping_list)

@@ -68,3 +68,8 @@ def exists(product_id):
     sql = "SELECT id FROM products WHERE id = ?"
     result = db.query(sql, [product_id])
     return bool(result)
+
+def get_owner(product_id):
+    sql = "SELECT user_id FROM products WHERE id = ?"
+    result = db.query(sql, [product_id])
+    return result[0][0]

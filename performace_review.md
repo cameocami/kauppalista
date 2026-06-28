@@ -1,6 +1,6 @@
 # Suorituskyky suurella tietomäärällä
 
-Sovellusta testattattiin suurella tietomäärällä. Suuri tietomäärä luotiin tiedostolla [seed.py](./src/seed.py), jossa
+Sovellusta testattattiin suurella tietomäärällä. Suuri tietomäärä luotiin tiedostolla [seed.py](seed.py), jossa
 
 - käyttäjiä oli 1 000
 - tuotteita oli 100 000

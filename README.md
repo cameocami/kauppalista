@@ -13,13 +13,7 @@
 * Käyttäjällä on oma kauppalista, johon hän pystyy lisäämään tuotteita. 
 * Käyttäjä pystyy muokkaamaan tuotteiden määriä kauppalistallaan.
 * Käyttäjä pystyy poistamaan tuotteita kauppalistaltaan.
-
-## Sovellukseen tulevat toiminnot
-
-* Käyttäjäsivuilla näkyy käyttäjän kauppalistan tilastoja
-* Käyttäjäsivulla näkyy käyttäjän lisäämät tuotteet ja arviot.
-* Käyttäjä pystyy tallentamaan ja avaamaan uuden kauppalistan.
-* Käyttäjä näkee sovellukseen lisätyt kauppalistat.
+* Käyttäjäsivuilla näkyy käyttäjän kauppalista ja siihen liittyvät tilastot
 
 ## Sovelluksen asennus
 
@@ -48,4 +42,4 @@ $ flask run
 
 ## Toiminta suurella tietomäärällä
 
-Sovellus toimii hyvin myös suurella tietomäärällä. Raportti aiheesta [täällä](./src/performance_review.md)
+Sovellus toimii hyvin myös suurella tietomäärällä. Raportti aiheesta [täällä](performace_review.md).

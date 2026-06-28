@@ -51,3 +51,7 @@ CREATE TABLE product_ratings (
     user_id INTEGER REFERENCES users ON DELETE CASCADE,
     rating INTEGER
 );
+
+CREATE INDEX idx_products_user_id ON products(user_id);
+CREATE INDEX idx_products_unit_id ON products(unit_id);
+CREATE INDEX idx_products_department_id ON products(department_id);

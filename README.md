@@ -45,3 +45,7 @@ Käynnistä sovellus komennolla:
 ```
 $ flask run
 ```
+
+## Toiminta suurella tietomäärällä
+
+Sovellus toimii hyvin myös suurella tietomäärällä. Raportti aiheesta [täällä](./src/performance_review.md)
